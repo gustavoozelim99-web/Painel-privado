@@ -10,6 +10,15 @@
     "directory": "./public",
     "binding": "ASSETS"
   },
+
+  // Isto não é segredo — é só o endereço do repositório. Fica versionado.
+  // O ÚNICO segredo é GH_TOKEN, e ele nunca entra aqui:
+  //   npx wrangler secret put GH_TOKEN
+  "vars": {
+    "GH_REPO": "gustavoozelim99-web/Painel-privado",
+    "GH_BRANCH": "main"
+  },
+
   "observability": {
     "enabled": true
   }
