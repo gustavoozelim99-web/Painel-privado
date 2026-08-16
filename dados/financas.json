@@ -75,14 +75,6 @@
       "cat": "Assinaturas",
       "cartaoId": "c2",
       "data": "2026-08-03"
-    },
-    {
-      "id": "prova1",
-      "desc": "Teste de gravação — apagar",
-      "valor": 1,
-      "cat": "Outro",
-      "cartaoId": "c1",
-      "data": "2026-08-16"
     }
   ],
   "entradas": [
