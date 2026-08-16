@@ -1,23 +1,118 @@
 {
   "cartoes": [
-    {"id":"c1","nome":"Nubank","bandeira":"Mastercard","limite":2500,"fecha":3,"vence":10,"cor":"#7B3FE4"},
-    {"id":"c2","nome":"Inter","bandeira":"Visa","limite":1800,"fecha":20,"vence":27,"cor":"#E96B1F"}
+    {
+      "id": "c1",
+      "nome": "Nubank",
+      "bandeira": "Mastercard",
+      "limite": 2500,
+      "fecha": 3,
+      "vence": 10,
+      "cor": "#7B3FE4"
+    },
+    {
+      "id": "c2",
+      "nome": "Inter",
+      "bandeira": "Visa",
+      "limite": 1800,
+      "fecha": 20,
+      "vence": 27,
+      "cor": "#E96B1F"
+    }
   ],
   "gastos": [
-    {"id":"g1","desc":"Mercado do mês","valor":520,"cat":"Mercado","cartaoId":"c1","data":"2026-08-04"},
-    {"id":"g2","desc":"iFood, terça","valor":42,"cat":"Comida fora","cartaoId":"c1","data":"2026-08-11"},
-    {"id":"g3","desc":"Ads da Vanetto","valor":320,"cat":"Negócio","cartaoId":"c2","data":"2026-08-05"},
-    {"id":"g4","desc":"Claude Pro","valor":110,"cat":"Assinaturas","cartaoId":"c1","data":"2026-08-02"},
-    {"id":"g5","desc":"Academia","valor":129,"cat":"Saúde","cartaoId":"c2","data":"2026-08-06"},
-    {"id":"g6","desc":"Gasolina","valor":180,"cat":"Transporte","cartaoId":"c1","data":"2026-08-09"},
-    {"id":"g7","desc":"Celular","valor":56,"cat":"Assinaturas","cartaoId":"c2","data":"2026-08-03"}
+    {
+      "id": "g1",
+      "desc": "Mercado do mês",
+      "valor": 520,
+      "cat": "Mercado",
+      "cartaoId": "c1",
+      "data": "2026-08-04"
+    },
+    {
+      "id": "g2",
+      "desc": "iFood, terça",
+      "valor": 42,
+      "cat": "Comida fora",
+      "cartaoId": "c1",
+      "data": "2026-08-11"
+    },
+    {
+      "id": "g3",
+      "desc": "Ads da Vanetto",
+      "valor": 320,
+      "cat": "Negócio",
+      "cartaoId": "c2",
+      "data": "2026-08-05"
+    },
+    {
+      "id": "g4",
+      "desc": "Claude Pro",
+      "valor": 110,
+      "cat": "Assinaturas",
+      "cartaoId": "c1",
+      "data": "2026-08-02"
+    },
+    {
+      "id": "g5",
+      "desc": "Academia",
+      "valor": 129,
+      "cat": "Saúde",
+      "cartaoId": "c2",
+      "data": "2026-08-06"
+    },
+    {
+      "id": "g6",
+      "desc": "Gasolina",
+      "valor": 180,
+      "cat": "Transporte",
+      "cartaoId": "c1",
+      "data": "2026-08-09"
+    },
+    {
+      "id": "g7",
+      "desc": "Celular",
+      "valor": 56,
+      "cat": "Assinaturas",
+      "cartaoId": "c2",
+      "data": "2026-08-03"
+    },
+    {
+      "id": "prova1",
+      "desc": "Teste de gravação — apagar",
+      "valor": 1,
+      "cat": "Outro",
+      "cartaoId": "c1",
+      "data": "2026-08-16"
+    }
   ],
   "entradas": [
-    {"id":"e1","desc":"Salário Barns","valor":1600,"data":"2026-08-05"},
-    {"id":"e2","desc":"Comissão de agosto","valor":270,"data":"2026-08-05"}
+    {
+      "id": "e1",
+      "desc": "Salário Barns",
+      "valor": 1600,
+      "data": "2026-08-05"
+    },
+    {
+      "id": "e2",
+      "desc": "Comissão de agosto",
+      "valor": 270,
+      "data": "2026-08-05"
+    }
   ],
   "dividas": [
-    {"id":"d1","credor":"Cartão Nubank","valor":1240,"vence":"2026-09-10","juros":13.9},
-    {"id":"d2","credor":"Empréstimo — Tio Wilson","valor":2000,"vence":"2026-10-05","juros":0}
+    {
+      "id": "d1",
+      "credor": "Cartão Nubank",
+      "valor": 1240,
+      "vence": "2026-09-10",
+      "juros": 13.9
+    },
+    {
+      "id": "d2",
+      "credor": "Empréstimo — Tio Wilson",
+      "valor": 2000,
+      "vence": "2026-10-05",
+      "juros": 0
+    }
   ]
 }
