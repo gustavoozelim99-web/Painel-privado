@@ -8,11 +8,17 @@ A spec da fase 2 está em `brain/painel-spec.md`.
 ## Como está montado
 
 ```
-index.html                     a interface inteira, um arquivo só
+public/index.html              a interface inteira, um arquivo só
 dados/*.json                   o banco — é isto que o Claude lê e escreve
 server.js                      servidor local, só pra desenvolver
-functions/api/dados/           o mesmo papel, em produção (Cloudflare)
+src/worker.js                  o mesmo papel, em produção (Cloudflare)
+src/gh.js                      leitura e escrita no repositório, em produção
+wrangler.jsonc                 como a Cloudflare monta isso
 ```
+
+`dados/` fica **fora** de `public/` de propósito: só a API alcança. Se
+estivesse dentro, `/dados/financas.json` abriria no navegador de quem
+tivesse o endereço.
 
 **O banco são os arquivos em `dados/`.** Não tem serviço de banco, não tem
 conta em lugar nenhum: é JSON versionado no git. Quem mexe:
@@ -64,9 +70,14 @@ o domínio de produção fica público, e aqui vai dado real.
 
 Repositório: <https://github.com/gustavoozelim99-web/Painel-privado> (privado)
 
-1. Cloudflare Pages → Connect to Git → `Painel-privado`
-2. Sem build. Framework preset: None. Build output directory: `/`
-3. Variáveis de ambiente (Settings → Environment variables → Production):
+A Cloudflare unificou Pages e Workers. Projeto novo entra como **Worker com
+arquivos estáticos** — é o que o `wrangler.jsonc` descreve. O Pages continua
+existindo, mas para começar do zero o caminho é este.
+
+1. Workers & Pages → Create → Import a repository → `Painel-privado`
+2. Build command: **vazio**. Deploy command: `npx wrangler deploy`.
+   Path: `/`. O token de API da Cloudflare ela cria sozinha.
+3. Variáveis de ambiente (`GH_TOKEN` marcada como *Encrypt*):
 
    | nome | valor |
    |---|---|

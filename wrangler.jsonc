@@ -1,0 +1,16 @@
+{
+  // Painel do brain — Worker com arquivos estáticos.
+  // public/ é servido direto; só /api/* chega no código.
+  // dados/ fica FORA de public/ de propósito: os dados não são baixáveis
+  // pela web, só passam pela API.
+  "name": "painel-privado",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-16",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

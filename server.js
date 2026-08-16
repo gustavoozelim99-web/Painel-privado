@@ -16,7 +16,8 @@ const fsp = require("fs/promises");
 const path = require("path");
 
 const RAIZ = __dirname;
-const DADOS = path.join(RAIZ, "dados");
+const PUBLICO = path.join(RAIZ, "public");   /* o mesmo que a Cloudflare serve */
+const DADOS = path.join(RAIZ, "dados");      /* fora do público de propósito */
 const PORTA = Number(process.env.PORTA || 4310);
 
 /** grupo de arquivo -> coleções que moram dentro dele */
@@ -134,8 +135,8 @@ const servidor = http.createServer(async (req, res) => {
 
     /* ---------- arquivos ---------- */
     let arquivo = rota === "/" ? "/index.html" : rota;
-    const caminho = path.join(RAIZ, arquivo);
-    if(!caminho.startsWith(RAIZ)) return responder(res, 403, {erro:"fora da pasta"});
+    const caminho = path.join(PUBLICO, arquivo);
+    if(!caminho.startsWith(PUBLICO)) return responder(res, 403, {erro:"fora da pasta"});
     if(!fs.existsSync(caminho) || fs.statSync(caminho).isDirectory()){
       res.writeHead(404, {"content-type":"text/plain; charset=utf-8"});
       return res.end("não encontrado");
