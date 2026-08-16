@@ -1,0 +1,9 @@
+{
+  "entregas": [
+    {"id":"a1","titulo":"Trabalho de Macro II","tipo":"entrega","data":"2026-08-28","nota":"Grupo · reunião quarta 19:30"},
+    {"id":"a2","titulo":"Lista de Econometria 3","tipo":"entrega","data":"2026-09-02","nota":"Individual"},
+    {"id":"a3","titulo":"Prova de Econometria I","tipo":"prova","data":"2026-09-09","nota":"Peso 40%"},
+    {"id":"a4","titulo":"Seminário de Economia Brasileira","tipo":"entrega","data":"2026-09-11","nota":"Dupla"},
+    {"id":"a5","titulo":"Prova de Macro II","tipo":"prova","data":"2026-10-14","nota":"Presencial"}
+  ]
+}

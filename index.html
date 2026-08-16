@@ -85,6 +85,16 @@ ul,ol{margin:0;padding:0;list-style:none}
   padding:var(--sp-3) var(--sp-4);background:color-mix(in srgb,var(--bg) 88%,transparent);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:var(--sp-2);font-weight:640;letter-spacing:-.01em}
+.sync{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);font:600 11px/1.5 var(--mono);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.sync i{width:7px;height:7px;border-radius:999px;background:var(--ink-3);flex:none}
+.sync[data-s="salvo"]{color:var(--st-bom);border-color:color-mix(in srgb,var(--st-bom) 28%,transparent);background:var(--st-bom-bg)}
+.sync[data-s="salvo"] i{background:var(--st-bom)}
+.sync[data-s="salvando"]{color:var(--st-atencao);border-color:color-mix(in srgb,var(--st-atencao) 28%,transparent);background:var(--st-atencao-bg)}
+.sync[data-s="salvando"] i{background:var(--st-atencao);animation:pisca 1s ease-in-out infinite}
+@keyframes pisca{50%{opacity:.25}}
+@media (max-width:520px){.oculta-estreito{display:none}.sync b{display:none}.sync{padding:5px}}
 .brand-dot{width:10px;height:10px;border-radius:var(--r-mark);background:var(--ink);flex:none}
 .spacer{flex:1}
 .nav{background:var(--surface);border-right:1px solid var(--line);padding:var(--sp-4) var(--sp-3) var(--sp-7);display:flex;flex-direction:column;gap:var(--sp-5)}
@@ -487,7 +497,8 @@ textarea.input{resize:vertical;min-height:84px;font-family:inherit}
     <button class="btn btn-outline btn-icon nav-open" id="navOpen" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <span class="brand"><span class="brand-dot"></span>Painel</span>
     <span class="spacer"></span>
-    <span class="eyebrow">Dom, 16 ago</span>
+    <span class="sync" id="sync" data-s="local" title="Onde os seus dados estão sendo guardados"><i></i><b>—</b></span>
+    <span class="eyebrow oculta-estreito">Dom, 16 ago</span>
     <button class="btn btn-outline btn-icon" id="temaBtn" aria-label="Alternar tema">◐</button>
   </header>
 
@@ -595,22 +606,127 @@ const SEED={
   ]
 };
 
+/* Mesma porta de sempre — all / add / update / remove / on.
+   O que mudou foi o que tem ATRÁS dela: agora são os arquivos em dados/,
+   não o navegador. Se a API não responder (link do artifact, sem servidor),
+   cai sozinho pro modo local e continua funcionando — só não atravessa
+   aparelho e o Claude não enxerga. */
 const store=(()=>{
   const CHAVE="painel-brain-v3";
-  let db;
+
+  const GRUPOS={
+    financas:["cartoes","gastos","entradas","dividas"],
+    dia:["habitos","tarefas","notas"],
+    treino:["cargas","sessoes"],
+    estudo:["entregas"],
+    negocios:["funil","pedidos","receitaVanetto"]
+  };
+  const GRUPO_DE={};
+  for(const g in GRUPOS) GRUPOS[g].forEach(c=>{ GRUPO_DE[c]=g; });
+
+  let db, versao=0, modo="local", pendentes=new Set(), timer=null, salvando=false;
+
   try{ const raw=localStorage.getItem(CHAVE); db=raw?JSON.parse(raw):structuredClone(SEED); }
   catch(e){ db=structuredClone(SEED); }
   for(const k in SEED) if(!db[k]) db[k]=structuredClone(SEED[k]);
-  const salvar=()=>{ try{ localStorage.setItem(CHAVE,JSON.stringify(db)); }catch(e){} };
+
   const ouvintes=[];
-  const avisar=()=>{ salvar(); ouvintes.forEach(f=>f()); };
+  const notificar=()=>ouvintes.forEach(f=>f());
+  const guardarLocal=()=>{ try{ localStorage.setItem(CHAVE,JSON.stringify(db)); }catch(e){} };
+
+  let sinal=()=>{};
+  const situacao=()=>modo!=="arquivos" ? "local" : (pendentes.size||salvando) ? "salvando" : "salvo";
+
+  /* muda na tela na hora; o arquivo é gravado logo atrás */
+  function mexeu(colecao){
+    guardarLocal();
+    notificar();
+    if(modo!=="arquivos") return;
+    const g=GRUPO_DE[colecao];
+    if(!g) return;
+    pendentes.add(g);
+    sinal(situacao());
+    clearTimeout(timer);
+    timer=setTimeout(sincronizar,700);
+  }
+
+  function corpoDoGrupo(g){
+    const dados={};
+    GRUPOS[g].forEach(c=>{ dados[c]=db[c]; });
+    return {versao,dados};
+  }
+
+  /* aplica o que veio do servidor, menos os grupos que eu ainda não gravei */
+  function adotar(servidor,exceto){
+    versao=servidor.versao;
+    for(const g in GRUPOS){
+      if(exceto&&exceto.has(g)) continue;
+      GRUPOS[g].forEach(c=>{ if(Array.isArray(servidor[c])) db[c]=servidor[c]; });
+    }
+  }
+
+  async function sincronizar(){
+    if(modo!=="arquivos"||salvando||!pendentes.size) return;
+    salvando=true; sinal("salvando");
+    const fila=Array.from(pendentes);
+    pendentes.clear();
+    try{
+      for(const g of fila){
+        let r=await fetch(`/api/dados/${g}`,{method:"PUT",headers:{"content-type":"application/json"},body:JSON.stringify(corpoDoGrupo(g))});
+        if(r.status===409){
+          /* mexeram nos arquivos com a página aberta: pego o que mudou lá,
+             mantenho o que acabei de fazer aqui, e reenvio uma vez */
+          adotar(await r.json(),new Set([g]));
+          r=await fetch(`/api/dados/${g}`,{method:"PUT",headers:{"content-type":"application/json"},body:JSON.stringify(corpoDoGrupo(g))});
+        }
+        if(!r.ok) throw new Error(`${g}: ${r.status}`);
+        versao=(await r.json()).versao;
+      }
+      guardarLocal();
+      notificar();
+    }catch(e){
+      console.warn("não consegui gravar:",e.message);
+      fila.forEach(g=>pendentes.add(g));
+      clearTimeout(timer); timer=setTimeout(sincronizar,4000);
+    }finally{
+      salvando=false; sinal(situacao());
+    }
+  }
+
+  /* pega mudança feita nos arquivos com a página já aberta */
+  async function conferir(){
+    if(modo!=="arquivos"||pendentes.size||salvando||document.hidden) return;
+    try{
+      const r=await fetch("/api/dados",{cache:"no-store"});
+      if(!r.ok) return;
+      const s=await r.json();
+      if(s.versao===versao) return;
+      adotar(s); guardarLocal(); notificar();
+    }catch(e){}
+  }
+
   return {
     all:k=>db[k],
-    add(k,r){ r.id=uid(); db[k].unshift(r); avisar(); return r; },
-    update(k,id,patch){ const r=db[k].find(x=>x.id===id); if(r) Object.assign(r,patch); avisar(); return r; },
-    remove(k,id){ db[k]=db[k].filter(x=>x.id!==id); avisar(); },
-    zerar(){ db=structuredClone(SEED); avisar(); },
-    on(f){ ouvintes.push(f); }
+    add(k,r){ r.id=uid(); db[k].unshift(r); mexeu(k); return r; },
+    update(k,id,patch){ const r=db[k].find(x=>x.id===id); if(r) Object.assign(r,patch); mexeu(k); return r; },
+    remove(k,id){ db[k]=db[k].filter(x=>x.id!==id); mexeu(k); },
+    zerar(){ db=structuredClone(SEED); mexeu("gastos"); },
+    on(f){ ouvintes.push(f); },
+    aoMudarSituacao(f){ sinal=f; f(situacao()); },
+    async iniciar(){
+      try{
+        const r=await fetch("/api/dados",{cache:"no-store"});
+        if(!r.ok) throw new Error(r.status);
+        adotar(await r.json());
+        modo="arquivos";
+        guardarLocal(); notificar();
+        setInterval(conferir,20000);
+        addEventListener("visibilitychange",conferir);
+      }catch(e){
+        modo="local";
+      }
+      sinal(situacao());
+    }
   };
 })();
 
@@ -1849,5 +1965,21 @@ $("#temaBtn").addEventListener("click",()=>{
   r.setAttribute("data-theme",escuro?"light":"dark");
 });
 
+/* ============================================================
+   ONDE OS DADOS ESTÃO — o selo da barra de cima
+   ============================================================ */
+const ROTULO={
+  salvo:    {t:"salvo",     d:"Gravado nos arquivos. O Claude enxerga daqui."},
+  salvando: {t:"salvando",  d:"Gravando nos arquivos…"},
+  local:    {t:"só aqui",   d:"Sem servidor: fica só neste navegador, não atravessa aparelho e o Claude não enxerga."}
+};
+store.aoMudarSituacao(s=>{
+  const el=$("#sync"); if(!el) return;
+  el.dataset.s=s;
+  $("b",el).textContent=ROTULO[s].t;
+  el.title=ROTULO[s].d;
+});
+
 rota(false);
+store.iniciar();
 </script>

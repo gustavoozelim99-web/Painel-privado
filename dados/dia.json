@@ -1,0 +1,21 @@
+{
+  "habitos": [
+    {"id":"h1","nome":"Bíblia e oração","hora":"22:00","streak":11,"serve":"espiritual","feito":false},
+    {"id":"h2","nome":"Ler 20 minutos","hora":"08:30","streak":6,"serve":"leitura","feito":false},
+    {"id":"h3","nome":"Revisão semanal","hora":"10:00","streak":3,"serve":"poupanca","feito":false},
+    {"id":"h4","nome":"Alongamento em casa","hora":"18:00","streak":0,"serve":"leitura","feito":false}
+  ],
+  "tarefas": [
+    {"id":"t1","titulo":"Listar os 3 credores que faltam","area":"pessoal","data":"2026-08-16","hora":"11:00","feita":false,"foco":true},
+    {"id":"t2","titulo":"Planejar a semana no calendário","area":"pessoal","data":"2026-08-16","hora":"15:00","feita":false},
+    {"id":"t3","titulo":"Apurar taxa de resposta da leva A+","area":"vendas","data":"2026-08-17","hora":"09:30","feita":false},
+    {"id":"t4","titulo":"Responder o Davi sobre ads","area":"loja","data":"2026-08-18","hora":"18:00","feita":false},
+    {"id":"t5","titulo":"Definir tema do Macro II","area":"academico","data":"2026-08-19","hora":"19:30","feita":false},
+    {"id":"t6","titulo":"Entregar trabalho de Macro II","area":"academico","data":"2026-08-28","hora":"","feita":false}
+  ],
+  "notas": [
+    {"id":"n1","texto":"Perguntar ao Davi se o orçamento de ads inclui criativo","quando":"ontem 21:14"},
+    {"id":"n2","texto":"Ótica de Uberaba pediu orçamento de 12 armações western","quando":"14/08 16:02"},
+    {"id":"n3","texto":"Usar o funil da Barns como exemplo no seminário","quando":"13/08 09:40"}
+  ]
+}

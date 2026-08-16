@@ -1,0 +1,24 @@
+{
+  "funil": [
+    {"id":"f1","etapa":"Base A+","v":120},
+    {"id":"f2","etapa":"Enviadas","v":86},
+    {"id":"f3","etapa":"Responderam","v":34},
+    {"id":"f4","etapa":"Conversas","v":11},
+    {"id":"f5","etapa":"Orçamentos","v":4},
+    {"id":"f6","etapa":"Pedidos","v":2}
+  ],
+  "pedidos": [
+    {"id":"p1","mes":"mar","v":1},
+    {"id":"p2","mes":"abr","v":2},
+    {"id":"p3","mes":"mai","v":1},
+    {"id":"p4","mes":"jun","v":3},
+    {"id":"p5","mes":"jul","v":1},
+    {"id":"p6","mes":"ago","v":2}
+  ],
+  "receitaVanetto": [
+    {"id":"v1","mes":"mai","v":0},
+    {"id":"v2","mes":"jun","v":0},
+    {"id":"v3","mes":"jul","v":118},
+    {"id":"v4","mes":"ago","v":1822}
+  ]
+}

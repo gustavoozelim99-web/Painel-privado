@@ -1,0 +1,15 @@
+{
+  "cargas": [
+    {"id":"x1","ex":"Supino reto","carga":72.5,"series":"4 × 6","delta":2.5,"esq":null,"dir":null},
+    {"id":"x2","ex":"Remada curvada","carga":70,"series":"4 × 8","delta":5,"esq":null,"dir":null},
+    {"id":"x3","ex":"Agachamento livre","carga":100,"series":"5 × 5","delta":0,"esq":null,"dir":null},
+    {"id":"x4","ex":"Desenvolvimento militar","carga":42.5,"series":"4 × 6","delta":0,"esq":null,"dir":null},
+    {"id":"x5","ex":"Unilateral halter","carga":22,"series":"3 × 10","delta":0,"esq":18,"dir":22}
+  ],
+  "sessoes": [
+    {"id":"s1","sem":"sem 1","v":4},
+    {"id":"s2","sem":"sem 2","v":3},
+    {"id":"s3","sem":"sem 3","v":3},
+    {"id":"s4","sem":"sem 4","v":3}
+  ]
+}
