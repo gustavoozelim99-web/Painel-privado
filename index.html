@@ -1,3 +1,14 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<!-- Sem esta linha o celular finge ser um monitor de 980px e encolhe tudo. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F5F5F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121310" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Painel">
 <title>Painel do Brain</title>
 
 <style>
@@ -63,7 +74,7 @@
    BASE
    ============================================================ */
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-wrap:break-word;min-height:100vh}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0}
 h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance;font-weight:620}
@@ -131,6 +142,12 @@ ul,ol{margin:0;padding:0;list-style:none}
   .cols-2-1{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
 }
 @media (min-width:720px) and (max-width:1119px){.cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* trio de números que continua lado a lado no celular — empilhar três
+   métricas curtas gasta tela à toa */
+.tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-3)}
+.tri .kpi-v,.tri>div>.kpi-v{font-size:clamp(16px,4.4vw,23px)}
+.tri .eyebrow{font-size:10px;letter-spacing:.08em}
+@media (max-width:420px){.tri{gap:var(--sp-2)}.tri .delta,.tri .small{font-size:11px;line-height:1.35}}
 .row{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
 .between{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)}
 .scroll-x{overflow-x:auto}
@@ -444,6 +461,9 @@ textarea.input{resize:vertical;min-height:84px;font-family:inherit}
 @keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}}
 </style>
+
+</head>
+<body>
 
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <div id="tip" role="status"></div>
@@ -1130,7 +1150,7 @@ function pHome(){
     <!-- 1 · BRIEFING -->
     ${card(`Briefing de hoje`,
       `<span class="row"><span class="small dim num">06:12</span><a class="btn btn-outline btn-sm" href="#/briefing">Ver completo</a></span>`,
-      `<div class="cols cols-3" style="gap:var(--sp-3)">
+      `<div class="tri">
         <div style="display:flex;flex-direction:column;gap:2px"><span class="eyebrow">Dólar</span>
           <span class="kpi-v" style="font-size:22px">5,12</span><span class="delta down">+0,9% na semana</span></div>
         <div style="display:flex;flex-direction:column;gap:2px"><span class="eyebrow">Selic</span>
@@ -1173,7 +1193,7 @@ function pHome(){
     <!-- 4 · FINANCEIRO -->
     ${card("Resumo financeiro",
       `<a class="btn btn-outline btn-sm" href="#/financas">Abrir finanças</a>`,
-      `<div class="cols cols-3" style="gap:var(--sp-3)">
+      `<div class="tri">
         <div class="kpi"><span class="eyebrow">Entrou</span><span class="kpi-v" style="font-size:23px">${brl(entrou)}</span></div>
         <div class="kpi"><span class="eyebrow">Saiu</span><span class="kpi-v" style="font-size:23px">${brl(saiu)}</span></div>
         <div class="kpi"><span class="eyebrow">Sobrou</span><span class="kpi-v" style="font-size:23px">${brl(sobra)}</span>
@@ -1983,3 +2003,7 @@ store.aoMudarSituacao(s=>{
 rota(false);
 store.iniciar();
 </script>
+
+</body>
+</html>
+
