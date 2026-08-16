@@ -62,14 +62,22 @@ Abre em <http://localhost:4310>. Sem dependência nenhuma, só o Node.
 Decidido em 16/08/2026: Cloudflare, não Vercel — no plano grátis da Vercel
 o domínio de produção fica público, e aqui vai dado real.
 
-1. Repositório **privado** `painel` no GitHub
-2. Cloudflare Pages → Connect to Git → este repositório
-3. Sem build. Output directory: `/`
-4. Variáveis de ambiente (Settings → Environment variables):
-   - `GH_TOKEN` — token fino do GitHub, só Contents: read and write, só neste repo
-   - `GH_REPO` — `usuario/painel`
-   - `GH_BRANCH` — `main`
-5. Zero Trust → Access → Add application → Self-hosted → login por PIN no e-mail
+Repositório: <https://github.com/gustavoozelim99-web/Painel-privado> (privado)
+
+1. Cloudflare Pages → Connect to Git → `Painel-privado`
+2. Sem build. Framework preset: None. Build output directory: `/`
+3. Variáveis de ambiente (Settings → Environment variables → Production):
+
+   | nome | valor |
+   |---|---|
+   | `GH_TOKEN` | token fino do GitHub, só Contents: read and write, só neste repo |
+   | `GH_REPO` | `gustavoozelim99-web/Painel-privado` |
+   | `GH_BRANCH` | `main` |
+
+4. Zero Trust → Access → Add application → Self-hosted → login por PIN no e-mail
+
+**Nunca** commitar o token aqui. Ele vive só na variável de ambiente do
+Cloudflare — nem no repositório, nem em conversa.
 
 **Nunca** commitar token aqui. Ele vive só na variável de ambiente.
 
