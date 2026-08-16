@@ -150,7 +150,15 @@ const servidor = http.createServer(async (req, res) => {
 });
 
 servidor.listen(PORTA, () => {
-  console.log(`\n  painel rodando em  http://localhost:${PORTA}`);
-  console.log(`  dados em           ${DADOS}`);
-  console.log(`  para parar:        Ctrl+C\n`);
+  console.log(`\n  neste PC     http://localhost:${PORTA}`);
+
+  /* No celular, "localhost" é o próprio celular — tem que ser o IP do PC.
+     E ainda assim só passa se o firewall do Windows deixar. */
+  const redes = Object.values(require("os").networkInterfaces()).flat()
+    .filter(i => i && i.family === "IPv4" && !i.internal);
+  for(const r of redes) console.log(`  na rede      http://${r.address}:${PORTA}`);
+  if(redes.length) console.log(`               (só funciona se o firewall liberar a porta ${PORTA})`);
+
+  console.log(`  dados em     ${DADOS}`);
+  console.log(`  parar        Ctrl+C\n`);
 });
