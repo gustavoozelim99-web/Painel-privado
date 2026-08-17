@@ -92,6 +92,20 @@ Cloudflare — nem no repositório, nem em conversa.
 
 **Nunca** commitar token aqui. Ele vive só na variável de ambiente.
 
+## No ar
+
+<https://painel-privado.gustavoozelim99.workers.dev> — protegido por
+Cloudflare Access (conta da Cloudflare, sessão de 24h, escopo "All traffic").
+
+**Mudou dado?** Editar `dados/*.json`, commit e push. Só isso — o Worker lê
+do GitHub na hora do pedido, não precisa publicar de novo.
+
+**Mudou código?** `npx wrangler deploy`. Não há publicação automática por
+push: o assistente de Git da Cloudflare não foi usado.
+
+**Antes de ler os dados**, sempre `git pull`: o que foi marcado no celular
+virou commit aqui.
+
 ## O que ainda não está feito
 
 - As funções do Cloudflare (`functions/`) foram escritas mas **nunca
