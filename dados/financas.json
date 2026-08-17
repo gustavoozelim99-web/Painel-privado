@@ -8,5 +8,24 @@
     {"id":"e1","desc":"Salário Barns","valor":1600,"data":"2026-08-05"},
     {"id":"e2","desc":"Comissão de agosto","valor":270,"data":"2026-08-05","estimado":true}
   ],
-  "dividas": []
+  "dividas": [
+    {
+      "id":"d1","credor":"Acordo pequeno (credor a identificar)",
+      "valor":147.51,"vence":"2026-08-21","juros":0,
+      "acordo":true,"avista":147.51,"parcelado":"2x 86,88 ou 3x 57,92",
+      "custoParcelado":173.76,"desconto":"25%"
+    },
+    {
+      "id":"d2","credor":"Acordo médio (credor a identificar)",
+      "valor":264.62,"vence":"2026-08-21","juros":0,
+      "acordo":true,"avista":264.62,"parcelado":"até 6x de 54,08",
+      "custoParcelado":324.48,"desconto":"39%"
+    },
+    {
+      "id":"d3","credor":"Acordo grande (credor a identificar)",
+      "valor":1484.37,"vence":"2026-08-21","juros":0,
+      "acordo":true,"avista":1484.37,"original":2698.85,
+      "descontoValor":1214.48,"desconto":"45%"
+    }
+  ]
 }
