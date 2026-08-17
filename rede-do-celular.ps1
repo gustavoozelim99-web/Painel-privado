@@ -1,6 +1,8 @@
 # Libera o painel para ser aberto no celular, na mesma Wi-Fi.
-# Precisa de administrador. Para desfazer:  .\rede-do-celular.ps1 -Desfazer
-param([switch]$Desfazer)
+# Precisa de administrador.
+#   -Desfazer    tira a regra de firewall E volta a rede para Publica
+#   -SoPrivada   so marca a rede de casa como Privada, sem abrir porta nenhuma
+param([switch]$Desfazer,[switch]$SoPrivada)
 
 $ErrorActionPreference = "Stop"
 $REGRA = "Painel do brain (4310)"
@@ -21,6 +23,22 @@ if (-not $euSouAdmin) {
 
 $perfil = Get-NetConnectionProfile | Where-Object { $_.InterfaceAlias -like "*Wi-Fi*" } | Select-Object -First 1
 if (-not $perfil) { $perfil = Get-NetConnectionProfile | Select-Object -First 1 }
+
+if ($SoPrivada) {
+  Write-Host ""
+  Write-Host "  Rede: $($perfil.Name)  (hoje: $($perfil.NetworkCategory))" -ForegroundColor Cyan
+  Set-NetConnectionProfile -Name $perfil.Name -NetworkCategory Private
+  Write-Host "  - marcada como Privada" -ForegroundColor Green
+  $regra = Get-NetFirewallRule -DisplayName $REGRA -ErrorAction SilentlyContinue
+  if ($regra) {
+    Write-Host "  ATENCAO: a regra da porta $PORTA ainda existe." -ForegroundColor Yellow
+  } else {
+    Write-Host "  - nenhuma porta aberta: so a confianca na rede mudou" -ForegroundColor Green
+  }
+  Write-Host ""
+  Read-Host "  Enter para fechar"
+  exit 0
+}
 
 if ($Desfazer) {
   Write-Host ""
