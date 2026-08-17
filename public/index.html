@@ -450,6 +450,7 @@ textarea.input{resize:vertical;min-height:84px;font-family:inherit}
 
 .capa{height:96px;border-radius:var(--r-control);display:flex;align-items:flex-end;padding:var(--sp-3);border:1px solid var(--line)}
 .capa span{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--surface);padding:5px 8px;border-radius:var(--r-mark)}
+.capa-img{width:100%;object-fit:cover;border-radius:var(--r-control);border:1px solid var(--line);display:block;background:var(--surface-3)}
 
 #tip{position:fixed;z-index:96;pointer-events:none;opacity:0;background:var(--surface);color:var(--ink);
   border:1px solid var(--line-strong);padding:7px 10px;border-radius:var(--r-control);
@@ -1131,13 +1132,15 @@ function pHome(){
     <!-- 3 · NOTÍCIAS -->
     <div class="stack-tight">
       <div class="between"><span class="eyebrow">Notícias que mexem com você</span><a class="btn btn-outline btn-sm" href="#/noticias">Ver todas</a></div>
-      <div class="cols cols-3">${NOTICIAS.slice(0,3).map(n=>`
-        <a class="card" href="#/noticias"><div class="card-c">
-          <div class="capa" style="height:76px;background:linear-gradient(135deg,color-mix(in srgb,${n.c} 30%,var(--surface)),color-mix(in srgb,${n.c} 8%,var(--surface)))"><span>${esc(n.a)}</span></div>
-          <h3>${esc(n.t)}</h3>
-          <span class="small dim num">${esc(n.f)} · ${esc(n.h)}</span>
-          <span class="small muted">${esc(n.p)}</span>
-        </div></a>`).join("")}</div>
+      <div class="cols cols-3">${
+        CACHE_NOTICIAS&&CACHE_NOTICIAS.itens&&CACHE_NOTICIAS.itens.length
+          ? CACHE_NOTICIAS.itens.slice(0,3).map(n=>cardNoticia(n,true)).join("")
+          : [1,2,3].map(()=>`<div class="card"><div class="card-c">
+              <div class="capa" style="height:76px;background:var(--surface-3)"></div>
+              <div style="height:12px;background:var(--surface-3);border-radius:4px;width:85%"></div>
+              <div style="height:12px;background:var(--surface-3);border-radius:4px;width:55%"></div>
+            </div></div>`).join("")
+      }</div>
     </div>
 
     <!-- 4 · FINANCEIRO -->
@@ -1687,16 +1690,78 @@ function pBriefing(){
   </div>`;
 }
 
+/* As notícias são de verdade: vêm dos feeds dos jornais pela API.
+   Ficam guardadas na memória da aba pra não recarregar a cada visita. */
+let CACHE_NOTICIAS=null;
+
+const quandoFoi=iso=>{
+  const t=Date.parse(iso); if(!t) return "";
+  const min=Math.round((Date.now()-t)/60000);
+  if(min<60) return `há ${Math.max(1,min)} min`;
+  if(min<1440) return `há ${Math.round(min/60)}h`;
+  const d=Math.round(min/1440);
+  return d===1 ? "ontem" : `há ${d} dias`;
+};
+
+function cardNoticia(n,compacto){
+  const cor=AREAS[n.area]?AREAS[n.area].cor:"var(--ramp-2)";
+  const capa=n.imagem
+    ? `<img class="capa-img" src="${esc(n.imagem)}" alt="" loading="lazy" referrerpolicy="no-referrer"
+         onerror="this.remove()" style="${compacto?"height:110px":"height:160px"}">`
+    : `<div class="capa" style="${compacto?"height:76px":"height:110px"};background:linear-gradient(135deg,color-mix(in srgb,${cor} 30%,var(--surface)),color-mix(in srgb,${cor} 8%,var(--surface)))"><span>${esc(n.assunto)}</span></div>`;
+  return `<a class="card" href="${esc(n.link)}" target="_blank" rel="noopener noreferrer">
+    <div class="card-c">
+      ${capa}
+      <div class="row" style="gap:var(--sp-2)">
+        <span class="badge badge-neutro">${esc(n.assunto)}</span>
+        <span class="small dim num">${esc(n.fonte)} · ${esc(quandoFoi(n.data))}</span>
+      </div>
+      <h3>${esc(n.titulo)}</h3>
+      ${n.resumo?`<p class="small muted">${esc(n.resumo)}</p>`:""}
+      <span class="small dim">Ler no ${esc(n.fonte)} ↗</span>
+    </div></a>`;
+}
+
 function pNoticias(){
-  $("#p-noticias").innerHTML=`
-  <div class="page-head"><div class="t"><span class="eyebrow">Notícias</span><h1>Só o que mexe com você</h1></div></div>
-  <div class="cols cols-3">${NOTICIAS.map(n=>`
-    <div class="card"><div class="card-c">
-      <div class="capa" style="background:linear-gradient(135deg,color-mix(in srgb,${n.c} 30%,var(--surface)),color-mix(in srgb,${n.c} 8%,var(--surface)))"><span>${esc(n.a)}</span></div>
-      <h3>${esc(n.t)}</h3>
-      <span class="small dim num">${esc(n.f)} · ${esc(n.h)}</span>
-      <span class="small muted">${esc(n.p)}</span>
-    </div></div>`).join("")}</div>`;
+  const el=$("#p-noticias");
+  const cabeca=`<div class="page-head">
+      <div class="t"><span class="eyebrow">Notícias</span><h1>Só o que mexe com você</h1></div>
+      <button class="btn btn-outline btn-sm" data-acao="noticias-recarregar">Atualizar</button>
+    </div>`;
+
+  if(!CACHE_NOTICIAS){
+    el.innerHTML=cabeca+`<div class="cols cols-3">${
+      [1,2,3,4,5,6].map(()=>`<div class="card"><div class="card-c">
+        <div class="capa" style="height:110px;background:var(--surface-3)"></div>
+        <div style="height:12px;background:var(--surface-3);border-radius:4px;width:85%"></div>
+        <div style="height:12px;background:var(--surface-3);border-radius:4px;width:60%"></div>
+      </div></div>`).join("")}</div>`;
+    carregarNoticias();
+    return;
+  }
+  if(CACHE_NOTICIAS.erro){
+    el.innerHTML=cabeca+`<div class="vazio"><strong style="color:var(--ink)">Não consegui buscar as notícias</strong>
+      <span class="small">${esc(CACHE_NOTICIAS.erro)}</span>
+      <button class="btn" data-acao="noticias-recarregar">Tentar de novo</button></div>`;
+    return;
+  }
+  el.innerHTML=cabeca
+    +(CACHE_NOTICIAS.falhas&&CACHE_NOTICIAS.falhas.length
+      ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">Fora do ar agora: ${esc(CACHE_NOTICIAS.falhas.join(", "))}. O resto veio normal.</span></div>` : "")
+    +`<div class="cols cols-3">${CACHE_NOTICIAS.itens.map(n=>cardNoticia(n,false)).join("")}</div>`;
+}
+
+async function carregarNoticias(recarregar){
+  if(CACHE_NOTICIAS&&!recarregar) return;
+  try{
+    const r=await fetch("/api/noticias",{cache:recarregar?"reload":"default"});
+    if(!r.ok) throw new Error("o servidor respondeu "+r.status);
+    CACHE_NOTICIAS=await r.json();
+    if(!CACHE_NOTICIAS.itens||!CACHE_NOTICIAS.itens.length) CACHE_NOTICIAS.erro="Nenhuma notícia voltou dos jornais.";
+  }catch(e){
+    CACHE_NOTICIAS={erro:e.message,itens:[]};
+  }
+  rota(true);
 }
 
 function pConquistas(){
@@ -1862,6 +1927,8 @@ const ACOES={
     onSalvar:v=>store.add("receitaVanetto",v)}),
 
   "nota-apagar":id=>{ store.remove("notas",id); toast("Anotação apagada."); },
+
+  "noticias-recarregar":()=>{ CACHE_NOTICIAS=null; rota(true); toast("Buscando nos jornais…"); },
 
   "captura":()=>{ const c=$("#capturaTxt"); if(!c) return;
     const t=c.value.trim();

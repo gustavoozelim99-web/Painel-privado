@@ -10,6 +10,7 @@
  *   PUT  /api/dados/:grupo   -> 200 { versao } | 409 { versao, ...tudo }
  */
 import { lerArquivo, gravarArquivo, tudo, versaoAtual, GRUPOS, json } from "./gh.js";
+import { noticias } from "./noticias.js";
 
 const FALTA = ["GH_TOKEN", "GH_REPO"];
 
@@ -18,6 +19,17 @@ export default {
     const url = new URL(request.url);
 
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
+
+    /* notícias não dependem do GitHub — vêm dos jornais direto */
+    if (url.pathname === "/api/noticias" && request.method === "GET") {
+      try {
+        const r = json(await noticias());
+        r.headers.set("cache-control", "public, max-age=600");
+        return r;
+      } catch (e) {
+        return json({ erro: e.message, itens: [] }, 502);
+      }
+    }
 
     const semConfig = FALTA.filter(k => !env[k]);
     if (semConfig.length) {

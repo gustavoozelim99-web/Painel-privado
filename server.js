@@ -100,6 +100,12 @@ const servidor = http.createServer(async (req, res) => {
 
   try{
     /* ---------- API ---------- */
+    if(rota === "/api/noticias" && req.method === "GET"){
+      /* mesmo módulo que a Cloudflare usa — import() porque ele é ESM */
+      const {noticias} = await import("./src/noticias.js");
+      return responder(res, 200, await noticias());
+    }
+
     if(rota === "/api/dados" && req.method === "GET"){
       return responder(res, 200, await tudo());
     }
