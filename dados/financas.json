@@ -1,8 +1,9 @@
 {
   "cartoes": [],
   "gastos": [
-    {"id":"g1","desc":"Celular","valor":56,"cat":"Assinaturas","cartaoId":"","data":"2026-08-01","fixo":true},
-    {"id":"g2","desc":"Claude Pro","valor":110,"cat":"Assinaturas","cartaoId":"","data":"2026-08-01","fixo":true}
+    {"id":"g1","desc":"Celular","valor":59.27,"cat":"Assinaturas","cartaoId":"","data":"2026-08-20","fixo":true,"nota":"vence todo dia 20"},
+    {"id":"g2","desc":"Claude Pro","valor":110,"cat":"Assinaturas","cartaoId":"","data":"2026-08-01","fixo":true},
+    {"id":"g3","desc":"Cadeira (parcelamento)","valor":80,"cat":"Outro","cartaoId":"","data":"2026-08-01","fixo":true,"parcelasRestantes":5,"nota":"acaba em dezembro/2026"}
   ],
   "entradas": [
     {"id":"e1","desc":"Salário Barns","valor":1600,"data":"2026-08-05"},
