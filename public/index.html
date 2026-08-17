@@ -1730,24 +1730,11 @@ function pNoticias(){
       <button class="btn btn-outline btn-sm" data-acao="noticias-recarregar">Atualizar</button>
     </div>`;
 
-  if(!CACHE_NOTICIAS){
-    el.innerHTML=cabeca+`<div class="cols cols-3">${
-      [1,2,3,4,5,6].map(()=>`<div class="card"><div class="card-c">
-        <div class="capa" style="height:110px;background:var(--surface-3)"></div>
-        <div style="height:12px;background:var(--surface-3);border-radius:4px;width:85%"></div>
-        <div style="height:12px;background:var(--surface-3);border-radius:4px;width:60%"></div>
-      </div></div>`).join("")}</div>`;
-    carregarNoticias();
-    return;
-  }
-  if(CACHE_NOTICIAS.erro){
-    el.innerHTML=cabeca+`<div class="vazio"><strong style="color:var(--ink)">Não consegui buscar as notícias</strong>
-      <span class="small">${esc(CACHE_NOTICIAS.erro)}</span>
-      <button class="btn" data-acao="noticias-recarregar">Tentar de novo</button></div>`;
-    return;
-  }
   /* A curadoria é o que o agente escolheu de manhã, com o porquê escrito.
-     Quando ela existe, ela manda; o feed cru fica embaixo como "tem mais". */
+     Ela vem dos dados e não depende dos jornais, então desenha SEMPRE e
+     primeiro. O feed cru é o "tem mais": pode demorar ou falhar sem levar
+     junto o que já está gravado — foi o que aconteceu e ele viu tela de
+     erro com as notícias do dia prontas atrás. */
   const cur=store.all("curadoria")||[];
   const bloco=cur.length?`
     <div class="stack-tight" style="margin-bottom:var(--sp-5)">
@@ -1768,19 +1755,39 @@ function pNoticias(){
       </div>
     </div>`:"";
 
-  el.innerHTML=cabeca+bloco
-    +(CACHE_NOTICIAS.semNoticiaBoa
-      ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">A notícia boa do dia não veio — a fonte está fora do ar. Ela é obrigatória, então isto é uma falha, não uma escolha.</span></div>` : "")
-    +(CACHE_NOTICIAS.falhas&&CACHE_NOTICIAS.falhas.length
-      ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">Fora do ar agora: ${esc(CACHE_NOTICIAS.falhas.join(", "))}. O resto veio normal.</span></div>` : "")
-    +`<div class="stack">${(CACHE_NOTICIAS.grupos||[]).map(g=>`
-        <div class="stack-tight">
-          <div class="between">
-            <span class="eyebrow">${esc(g.emoji)} ${esc(g.assunto)}</span>
-            <span class="small dim num">${g.itens.length}</span>
-          </div>
-          <div class="cols cols-3">${g.itens.map(n=>cardNoticia(n,false)).join("")}</div>
-        </div>`).join("")}</div>`;
+  /* Três estados do feed cru, e nenhum deles apaga o bloco de cima:
+     carregando (esqueleto), falhou (aviso magro com o botão) e ok. */
+  const carregando=`<div class="cols cols-3">${
+      [1,2,3,4,5,6].map(()=>`<div class="card"><div class="card-c">
+        <div class="capa" style="height:110px;background:var(--surface-3)"></div>
+        <div style="height:12px;background:var(--surface-3);border-radius:4px;width:85%"></div>
+        <div style="height:12px;background:var(--surface-3);border-radius:4px;width:60%"></div>
+      </div></div>`).join("")}</div>`;
+
+  const falhou=`<div class="vazio">
+      <strong style="color:var(--ink)">${cur.length?"Os jornais não responderam agora":"Não consegui buscar as notícias"}</strong>
+      <span class="small">${esc(CACHE_NOTICIAS&&CACHE_NOTICIAS.erro||"")}${cur.length?" — as escolhidas de hoje, acima, não dependem disso.":""}</span>
+      <button class="btn" data-acao="noticias-recarregar">Tentar de novo</button></div>`;
+
+  const feed=!CACHE_NOTICIAS
+    ? carregando
+    : CACHE_NOTICIAS.erro
+      ? falhou
+      : (CACHE_NOTICIAS.semNoticiaBoa
+          ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">A notícia boa do dia não veio — a fonte está fora do ar. Ela é obrigatória, então isto é uma falha, não uma escolha.</span></div>` : "")
+        +(CACHE_NOTICIAS.falhas&&CACHE_NOTICIAS.falhas.length
+          ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">Fora do ar agora: ${esc(CACHE_NOTICIAS.falhas.join(", "))}. O resto veio normal.</span></div>` : "")
+        +`<div class="stack">${(CACHE_NOTICIAS.grupos||[]).map(g=>`
+            <div class="stack-tight">
+              <div class="between">
+                <span class="eyebrow">${esc(g.emoji)} ${esc(g.assunto)}</span>
+                <span class="small dim num">${g.itens.length}</span>
+              </div>
+              <div class="cols cols-3">${g.itens.map(n=>cardNoticia(n,false)).join("")}</div>
+            </div>`).join("")}</div>`;
+
+  el.innerHTML=cabeca+bloco+feed;
+  if(!CACHE_NOTICIAS) carregarNoticias();
 }
 
 /* as do dashboard: se o agente já escolheu hoje, são as dele. Senão, a
