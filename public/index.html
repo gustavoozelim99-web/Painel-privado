@@ -564,7 +564,7 @@ const SEED={
   cargas:[], sessoes:[],
   entregas:[],
   funil:[], pedidos:[], receitaVanetto:[], vanettoSessoes:[],
-  objetivos:[]
+  objetivos:[], curadoria:[]
 };
 
 /* Mesma porta de sempre — all / add / update / remove / on.
@@ -581,7 +581,8 @@ const store=(()=>{
     treino:["cargas","sessoes"],
     estudo:["entregas"],
     negocios:["funil","pedidos","receitaVanetto","vanettoSessoes"],
-    metas:["objetivos"]
+    metas:["objetivos"],
+    noticias:["curadoria"]
   };
   const GRUPO_DE={};
   for(const g in GRUPOS) GRUPOS[g].forEach(c=>{ GRUPO_DE[c]=g; });
@@ -1133,7 +1134,7 @@ function pHome(){
     <div class="stack-tight">
       <div class="between"><span class="eyebrow">Notícias que mexem com você</span><a class="btn btn-outline btn-sm" href="#/noticias">Ver todas</a></div>
       <div class="cols cols-3">${
-        CACHE_NOTICIAS&&CACHE_NOTICIAS.grupos&&CACHE_NOTICIAS.grupos.length
+        (store.all("curadoria")||[]).length || (CACHE_NOTICIAS&&CACHE_NOTICIAS.grupos&&CACHE_NOTICIAS.grupos.length)
           ? noticiasDoTopo(3).map(n=>cardNoticia(n,true)).join("")
           : [1,2,3].map(()=>`<div class="card"><div class="card-c">
               <div class="capa" style="height:76px;background:var(--surface-3)"></div>
@@ -1745,7 +1746,29 @@ function pNoticias(){
       <button class="btn" data-acao="noticias-recarregar">Tentar de novo</button></div>`;
     return;
   }
-  el.innerHTML=cabeca
+  /* A curadoria é o que o agente escolheu de manhã, com o porquê escrito.
+     Quando ela existe, ela manda; o feed cru fica embaixo como "tem mais". */
+  const cur=store.all("curadoria")||[];
+  const bloco=cur.length?`
+    <div class="stack-tight" style="margin-bottom:var(--sp-5)">
+      <div class="between">
+        <span class="eyebrow">Escolhidas pra você</span>
+        <span class="small dim num">${esc(cur[0].geradoEm||"hoje")}</span>
+      </div>
+      <div class="cols cols-2-1">
+        ${cur.map(n=>`<a class="card" href="${esc(n.link)}" target="_blank" rel="noopener noreferrer"><div class="card-c">
+          <div class="row" style="gap:var(--sp-2)">
+            <span class="badge badge-neutro">${esc(n.emoji||"")} ${esc(n.assunto||"")}</span>
+            <span class="small dim num">${esc(n.fonte||"")}</span>
+          </div>
+          <h3>${esc(n.titulo)}</h3>
+          ${n.porque?`<p class="small" style="color:var(--ink-2);border-left:2px solid var(--line-strong);padding-left:10px"><strong style="font-weight:600">Por que importa:</strong> ${esc(n.porque)}</p>`:""}
+          <span class="small dim">Ler no ${esc(n.fonte||"site")} ↗</span>
+        </div></a>`).join("")}
+      </div>
+    </div>`:"";
+
+  el.innerHTML=cabeca+bloco
     +(CACHE_NOTICIAS.semNoticiaBoa
       ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">A notícia boa do dia não veio — a fonte está fora do ar. Ela é obrigatória, então isto é uma falha, não uma escolha.</span></div>` : "")
     +(CACHE_NOTICIAS.falhas&&CACHE_NOTICIAS.falhas.length
@@ -1760,8 +1783,11 @@ function pNoticias(){
         </div>`).join("")}</div>`;
 }
 
-/* as 3 do dashboard: a notícia boa entra sempre, depois as mais recentes */
+/* as do dashboard: se o agente já escolheu hoje, são as dele. Senão, a
+   notícia boa entra sempre e depois as mais recentes do feed cru. */
 function noticiasDoTopo(n){
+  const cur=store.all("curadoria")||[];
+  if(cur.length) return cur.slice(0,n);
   const g=(CACHE_NOTICIAS&&CACHE_NOTICIAS.grupos)||[];
   const boa=g.find(x=>x.assunto==="Notícia boa");
   const resto=g.filter(x=>x.assunto!=="Notícia boa").flatMap(x=>x.itens);

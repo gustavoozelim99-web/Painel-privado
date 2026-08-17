@@ -27,7 +27,8 @@ const GRUPOS = {
   treino:   ["cargas", "sessoes"],
   estudo:   ["entregas"],
   negocios: ["funil", "pedidos", "receitaVanetto", "vanettoSessoes"],
-  metas:    ["objetivos"]
+  metas:    ["objetivos"],
+  noticias: ["curadoria"]
 };
 
 const TIPOS = {
