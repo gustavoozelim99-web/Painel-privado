@@ -7,8 +7,8 @@
     {"id":"h5","nome":"Bíblia e oração","hora":"22:00","streak":0,"serve":"espiritual","feito":false}
   ],
   "tarefas": [
-    {"id":"t1","titulo":"Entregar a lista de dívidas (credor, valor, vencimento, juros)","area":"pessoal","data":"2026-08-16","hora":"11:00","feita":false,"foco":true},
-    {"id":"t2","titulo":"Apurar a taxa de resposta da 1ª leva A+","area":"vendas","data":"2026-08-17","hora":"09:30","feita":false},
+    {"id":"t1","titulo":"Entregar a lista de dívidas (credor, valor, vencimento, juros)","area":"pessoal","data":"2026-08-16","hora":"11:00","feita":true},
+    {"id":"t2","titulo":"Rodar a 1ª leva A+ do REATIVAÇÃO 30D e apurar a taxa de resposta","area":"vendas","data":"2026-08-17","hora":"09:30","feita":false,"foco":true},
     {"id":"t3","titulo":"Chegar na reunião com o setor JÁ escolhido","area":"academico","data":"2026-08-19","hora":"18:00","feita":false},
     {"id":"t7","titulo":"Etapa 1: postar o setor no Canvas (reunião é 19:30, no mesmo dia)","area":"academico","data":"2026-08-19","hora":"20:45","feita":false},
     {"id":"t4","titulo":"Pedido-teste na Vanetto com cartão real","area":"loja","data":"2026-08-18","hora":"18:00","feita":false},
