@@ -1133,8 +1133,8 @@ function pHome(){
     <div class="stack-tight">
       <div class="between"><span class="eyebrow">Notícias que mexem com você</span><a class="btn btn-outline btn-sm" href="#/noticias">Ver todas</a></div>
       <div class="cols cols-3">${
-        CACHE_NOTICIAS&&CACHE_NOTICIAS.itens&&CACHE_NOTICIAS.itens.length
-          ? CACHE_NOTICIAS.itens.slice(0,3).map(n=>cardNoticia(n,true)).join("")
+        CACHE_NOTICIAS&&CACHE_NOTICIAS.grupos&&CACHE_NOTICIAS.grupos.length
+          ? noticiasDoTopo(3).map(n=>cardNoticia(n,true)).join("")
           : [1,2,3].map(()=>`<div class="card"><div class="card-c">
               <div class="capa" style="height:76px;background:var(--surface-3)"></div>
               <div style="height:12px;background:var(--surface-3);border-radius:4px;width:85%"></div>
@@ -1713,7 +1713,7 @@ function cardNoticia(n,compacto){
     <div class="card-c">
       ${capa}
       <div class="row" style="gap:var(--sp-2)">
-        <span class="badge badge-neutro">${esc(n.assunto)}</span>
+        <span class="badge badge-neutro">${esc(n.emoji||"")} ${esc(n.assunto)}</span>
         <span class="small dim num">${esc(n.fonte)} · ${esc(quandoFoi(n.data))}</span>
       </div>
       <h3>${esc(n.titulo)}</h3>
@@ -1746,9 +1746,26 @@ function pNoticias(){
     return;
   }
   el.innerHTML=cabeca
+    +(CACHE_NOTICIAS.semNoticiaBoa
+      ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">A notícia boa do dia não veio — a fonte está fora do ar. Ela é obrigatória, então isto é uma falha, não uma escolha.</span></div>` : "")
     +(CACHE_NOTICIAS.falhas&&CACHE_NOTICIAS.falhas.length
       ? `<div class="vazio" style="padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)"><span class="small">Fora do ar agora: ${esc(CACHE_NOTICIAS.falhas.join(", "))}. O resto veio normal.</span></div>` : "")
-    +`<div class="cols cols-3">${CACHE_NOTICIAS.itens.map(n=>cardNoticia(n,false)).join("")}</div>`;
+    +`<div class="stack">${(CACHE_NOTICIAS.grupos||[]).map(g=>`
+        <div class="stack-tight">
+          <div class="between">
+            <span class="eyebrow">${esc(g.emoji)} ${esc(g.assunto)}</span>
+            <span class="small dim num">${g.itens.length}</span>
+          </div>
+          <div class="cols cols-3">${g.itens.map(n=>cardNoticia(n,false)).join("")}</div>
+        </div>`).join("")}</div>`;
+}
+
+/* as 3 do dashboard: a notícia boa entra sempre, depois as mais recentes */
+function noticiasDoTopo(n){
+  const g=(CACHE_NOTICIAS&&CACHE_NOTICIAS.grupos)||[];
+  const boa=g.find(x=>x.assunto==="Notícia boa");
+  const resto=g.filter(x=>x.assunto!=="Notícia boa").flatMap(x=>x.itens);
+  return [...(boa?boa.itens.slice(0,1):[]),...resto].slice(0,n);
 }
 
 async function carregarNoticias(recarregar){
@@ -1757,7 +1774,7 @@ async function carregarNoticias(recarregar){
     const r=await fetch("/api/noticias",{cache:recarregar?"reload":"default"});
     if(!r.ok) throw new Error("o servidor respondeu "+r.status);
     CACHE_NOTICIAS=await r.json();
-    if(!CACHE_NOTICIAS.itens||!CACHE_NOTICIAS.itens.length) CACHE_NOTICIAS.erro="Nenhuma notícia voltou dos jornais.";
+    if(!CACHE_NOTICIAS.grupos||!CACHE_NOTICIAS.grupos.length) CACHE_NOTICIAS.erro="Nenhuma notícia voltou dos jornais.";
   }catch(e){
     CACHE_NOTICIAS={erro:e.message,itens:[]};
   }
