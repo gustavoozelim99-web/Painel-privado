@@ -1,9 +1,13 @@
 {
   "entregas": [
-    {"id":"a1","titulo":"Trabalho de Macro II","tipo":"entrega","data":"2026-08-28","nota":"Grupo · reunião quarta 19:30"},
-    {"id":"a2","titulo":"Lista de Econometria 3","tipo":"entrega","data":"2026-09-02","nota":"Individual"},
-    {"id":"a3","titulo":"Prova de Econometria I","tipo":"prova","data":"2026-09-09","nota":"Peso 40%"},
-    {"id":"a4","titulo":"Seminário de Economia Brasileira","tipo":"entrega","data":"2026-09-11","nota":"Dupla"},
-    {"id":"a5","titulo":"Prova de Macro II","tipo":"prova","data":"2026-10-14","nota":"Presencial"}
+    {"id":"a1","titulo":"Etapa 1: grupo posta o setor escolhido","tipo":"entrega","data":"2026-08-19","nota":"Não pontuada, mas trava as outras 4 etapas"},
+    {"id":"a2","titulo":"Etapa 2","tipo":"entrega","data":"2026-09-23","nota":"Eixo 2 — Projeto"},
+    {"id":"a3","titulo":"Verificação I: as duas disciplinas","tipo":"prova","data":"2026-10-08","nota":"Negociação e Persuasão · O Problema da Corrupção"},
+    {"id":"a4","titulo":"Etapa 3","tipo":"entrega","data":"2026-10-21","nota":"Eixo 2 — Projeto"},
+    {"id":"a5","titulo":"Atitudes: autoavaliação e avaliação por pares","tipo":"entrega","data":"2026-11-03","nota":"Começa a semana mais apertada"},
+    {"id":"a6","titulo":"Verificação II: as duas disciplinas","tipo":"prova","data":"2026-11-05","nota":"Dentro da semana apertada"},
+    {"id":"a7","titulo":"Etapa 4","tipo":"entrega","data":"2026-11-11","nota":"Fecha a semana apertada"},
+    {"id":"a8","titulo":"PROVA PRESENCIAL: Eixo 2 e as duas disciplinas","tipo":"prova","data":"2026-11-14","nota":"18:30 · presencial"},
+    {"id":"a9","titulo":"Etapa 5","tipo":"entrega","data":"2026-12-02","nota":"Última do semestre"}
   ]
 }

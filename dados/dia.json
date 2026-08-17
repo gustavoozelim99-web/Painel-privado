@@ -1,21 +1,18 @@
 {
   "habitos": [
-    {"id":"h1","nome":"Bíblia e oração","hora":"22:00","streak":11,"serve":"espiritual","feito":false},
-    {"id":"h2","nome":"Ler 20 minutos","hora":"08:30","streak":6,"serve":"leitura","feito":false},
-    {"id":"h3","nome":"Revisão semanal","hora":"10:00","streak":3,"serve":"poupanca","feito":false},
-    {"id":"h4","nome":"Alongamento em casa","hora":"18:00","streak":0,"serve":"leitura","feito":false}
+    {"id":"h1","nome":"Academia","hora":"06:45","streak":0,"serve":"leitura","dias":"seg ter qui sex","feito":false},
+    {"id":"h2","nome":"Ler 20 minutos","hora":"08:30","streak":0,"serve":"leitura","feito":false},
+    {"id":"h3","nome":"5 conexões no LinkedIn","hora":"12:00","streak":0,"serve":"cpa10","feito":false},
+    {"id":"h4","nome":"Anotar todo gasto do dia","hora":"21:30","streak":0,"serve":"poupanca","feito":false},
+    {"id":"h5","nome":"Bíblia e oração","hora":"22:00","streak":0,"serve":"espiritual","feito":false}
   ],
   "tarefas": [
-    {"id":"t1","titulo":"Listar os 3 credores que faltam","area":"pessoal","data":"2026-08-16","hora":"11:00","feita":false,"foco":true},
-    {"id":"t2","titulo":"Planejar a semana no calendário","area":"pessoal","data":"2026-08-16","hora":"15:00","feita":false},
-    {"id":"t3","titulo":"Apurar taxa de resposta da leva A+","area":"vendas","data":"2026-08-17","hora":"09:30","feita":false},
-    {"id":"t4","titulo":"Responder o Davi sobre ads","area":"loja","data":"2026-08-18","hora":"18:00","feita":false},
-    {"id":"t5","titulo":"Definir tema do Macro II","area":"academico","data":"2026-08-19","hora":"19:30","feita":false},
-    {"id":"t6","titulo":"Entregar trabalho de Macro II","area":"academico","data":"2026-08-28","hora":"","feita":false}
+    {"id":"t1","titulo":"Entregar a lista de dívidas (credor, valor, vencimento, juros)","area":"pessoal","data":"2026-08-16","hora":"11:00","feita":false,"foco":true},
+    {"id":"t2","titulo":"Apurar a taxa de resposta da 1ª leva A+","area":"vendas","data":"2026-08-17","hora":"09:30","feita":false},
+    {"id":"t3","titulo":"Etapa 1 do Eixo 2: grupo posta o setor escolhido","area":"academico","data":"2026-08-19","hora":"","feita":false},
+    {"id":"t4","titulo":"Pedido-teste na Vanetto com cartão real","area":"loja","data":"2026-08-18","hora":"18:00","feita":false},
+    {"id":"t5","titulo":"Definir o orçamento de ads com o Davi","area":"loja","data":"2026-08-20","hora":"18:00","feita":false},
+    {"id":"t6","titulo":"Marcar a data da prova da CPA-10","area":"academico","data":"2026-08-21","hora":"","feita":false}
   ],
-  "notas": [
-    {"id":"n1","texto":"Perguntar ao Davi se o orçamento de ads inclui criativo","quando":"ontem 21:14"},
-    {"id":"n2","texto":"Ótica de Uberaba pediu orçamento de 12 armações western","quando":"14/08 16:02"},
-    {"id":"n3","texto":"Usar o funil da Barns como exemplo no seminário","quando":"13/08 09:40"}
-  ]
+  "notas": []
 }

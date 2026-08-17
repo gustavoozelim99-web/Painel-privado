@@ -1,0 +1,87 @@
+{
+  "objetivos": [
+    {
+      "id": "barns",
+      "area": "vendas",
+      "titulo": "Barns: de 1–3 para 4–6 pedidos por mês",
+      "prazo": "sem data dura",
+      "tipo": "passos",
+      "metrica": "meta de patamar",
+      "gargalo": true,
+      "porque": "É a única fonte de capital. Paga os ads da Vanetto e é condição dos R$ 5.000.",
+      "passos": [
+        {"t": "Rodar a 1ª leva A+ do REATIVAÇÃO 30D e MEDIR a taxa de resposta", "feito": false, "q": "pendente desde 13/08"},
+        {"t": "Definir a meta de conversas por semana com base na taxa real", "feito": false, "q": "depende do passo acima"},
+        {"t": "Atacar o cluster Barretos (11 Prio A)", "feito": false, "q": "plano já escrito"},
+        {"t": "Fechar 4 pedidos num mês", "feito": false, "q": "sem data"}
+      ]
+    },
+    {
+      "id": "vanetto",
+      "area": "loja",
+      "titulo": "Vanetto: US$ 10.000 de receita",
+      "prazo": "31/12/2026",
+      "tipo": "passos",
+      "metrica": "prazo duro, martelo batido por ele",
+      "porque": "Sociedade com o Davi. 10k de receita não é 10k no bolso.",
+      "passos": [
+        {"t": "Pedido-teste com cartão real", "feito": false, "q": "semana 1 — descobre se é a página ou o checkout"},
+        {"t": "Consertar o vazamento: add-to-cart de 1,4% para 5%", "feito": false, "q": "semanas 2–3"},
+        {"t": "Checkpoint 1: a primeira venda", "feito": false, "q": "até 30/09"},
+        {"t": "Alinhar a meta de 10k com o Davi", "feito": false, "q": "sem data"},
+        {"t": "Definir o orçamento de ads com o Davi", "feito": false, "q": "trava o checkpoint 2"},
+        {"t": "Escalar: Black Friday e Natal", "feito": false, "q": "set–dez"}
+      ]
+    },
+    {
+      "id": "poupanca",
+      "area": "pessoal",
+      "titulo": "Juntar os primeiros R$ 5.000",
+      "prazo": "31/03/2027",
+      "tipo": "passos",
+      "metrica": "condicional à Barns dobrar",
+      "porque": "Sem a Barns ir de 1–3 para 4–6, esta data não fecha. Foi escolha sua, sabendo disso.",
+      "passos": [
+        {"t": "Entregar a lista de dívidas: credor, valor, vencimento, juros", "feito": false, "q": "prometido para 15/08 — atrasado"},
+        {"t": "Montar o planejamento financeiro", "feito": false, "q": "delegado ao Claude, depende da lista"},
+        {"t": "Pagar as dívidas", "feito": false, "q": "01/01/2027"},
+        {"t": "Primeira reserva", "feito": false, "q": "31/03/2027"}
+      ]
+    },
+    {
+      "id": "cpa10",
+      "area": "academico",
+      "titulo": "Estágio ou emprego na área financeira",
+      "prazo": "02/2027",
+      "tipo": "passos",
+      "metrica": "data desejada, não prazo duro",
+      "porque": "Nome limpo é pré-requisito. A CPA-10 é a porta de entrada.",
+      "passos": [
+        {"t": "Tirar a CPA-10 da ANBIMA", "feito": false, "q": "definido em 15/08"},
+        {"t": "Pagar a inscrição da prova", "feito": false, "q": "sem data — é o que torna real"},
+        {"t": "Currículo e LinkedIn prontos", "feito": false, "q": "sem data"},
+        {"t": "Aplicar em N vagas por semana", "feito": false, "q": "sem data — vira hábito"}
+      ]
+    },
+    {
+      "id": "leitura",
+      "area": "pessoal",
+      "titulo": "Hábito de leitura",
+      "prazo": "01/01/2027",
+      "tipo": "streak",
+      "streak": 0,
+      "metrica": "sequência de dias",
+      "porque": "Muda o jeito de falar, de se expressar, o repertório. Palavras suas."
+    },
+    {
+      "id": "espiritual",
+      "area": "pessoal",
+      "titulo": "Vida espiritual",
+      "prazo": "contínuo",
+      "tipo": "streak",
+      "streak": 0,
+      "metrica": "sequência de dias",
+      "porque": "Bíblia e oração, diários e pequenos. Igreja não entra — decisão sua."
+    }
+  ]
+}

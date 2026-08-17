@@ -26,7 +26,8 @@ const GRUPOS = {
   dia:      ["habitos", "tarefas", "notas"],
   treino:   ["cargas", "sessoes"],
   estudo:   ["entregas"],
-  negocios: ["funil", "pedidos", "receitaVanetto"]
+  negocios: ["funil", "pedidos", "receitaVanetto", "vanettoSessoes"],
+  metas:    ["objetivos"]
 };
 
 const TIPOS = {

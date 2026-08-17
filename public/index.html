@@ -554,76 +554,16 @@ const dataBR=iso=>{if(!iso)return "sem data";const[a,m,d]=iso.split("-");return 
 /* ============================================================
    STORE — interface pequena, persistência e notificação escondidas
    ============================================================ */
+/* Copia de emergencia: so entra em cena se a API nao responder (sem
+   servidor, ou sem internet). Fica VAZIA de proposito - dado inventado
+   aqui viraria mentira na tela. Os arquivos em dados/ e que mandam. */
 const SEED={
-  cartoes:[
-    {id:"c1",nome:"Nubank",bandeira:"Mastercard",limite:2500,usado:1240,fecha:3,vence:10,cor:"#7B3FE4"},
-    {id:"c2",nome:"Inter",bandeira:"Visa",limite:1800,usado:410,fecha:20,vence:27,cor:"#E96B1F"}
-  ],
-  gastos:[
-    {id:"g1",desc:"Mercado do mês",valor:520,cat:"Mercado",cartaoId:"c1",data:"2026-08-04"},
-    {id:"g2",desc:"iFood, terça",valor:42,cat:"Comida fora",cartaoId:"c1",data:"2026-08-11"},
-    {id:"g3",desc:"Ads da Vanetto",valor:320,cat:"Negócio",cartaoId:"c2",data:"2026-08-05"},
-    {id:"g4",desc:"Claude Pro",valor:110,cat:"Assinaturas",cartaoId:"c1",data:"2026-08-02"},
-    {id:"g5",desc:"Academia",valor:129,cat:"Saúde",cartaoId:"c2",data:"2026-08-06"},
-    {id:"g6",desc:"Gasolina",valor:180,cat:"Transporte",cartaoId:"c1",data:"2026-08-09"},
-    {id:"g7",desc:"Celular",valor:56,cat:"Assinaturas",cartaoId:"c2",data:"2026-08-03"}
-  ],
-  entradas:[
-    {id:"e1",desc:"Salário Barns",valor:1600,data:"2026-08-05"},
-    {id:"e2",desc:"Comissão de agosto",valor:270,data:"2026-08-05"}
-  ],
-  dividas:[
-    {id:"d1",credor:"Cartão Nubank",valor:1240,vence:"2026-09-10",juros:13.9},
-    {id:"d2",credor:"Empréstimo — Tio Wilson",valor:2000,vence:"2026-10-05",juros:0}
-  ],
-  tarefas:[
-    {id:"t1",titulo:"Listar os 3 credores que faltam",area:"pessoal",data:"2026-08-16",hora:"11:00",feita:false,foco:true},
-    {id:"t2",titulo:"Planejar a semana no calendário",area:"pessoal",data:"2026-08-16",hora:"15:00",feita:false},
-    {id:"t3",titulo:"Apurar taxa de resposta da leva A+",area:"vendas",data:"2026-08-17",hora:"09:30",feita:false},
-    {id:"t4",titulo:"Responder o Davi sobre ads",area:"loja",data:"2026-08-18",hora:"18:00",feita:false},
-    {id:"t5",titulo:"Definir tema do Macro II",area:"academico",data:"2026-08-19",hora:"19:30",feita:false},
-    {id:"t6",titulo:"Entregar trabalho de Macro II",area:"academico",data:"2026-08-28",hora:"",feita:false}
-  ],
-  habitos:[
-    {id:"h1",nome:"Bíblia e oração",hora:"22:00",streak:11,serve:"espiritual",feito:false},
-    {id:"h2",nome:"Ler 20 minutos",hora:"08:30",streak:6,serve:"leitura",feito:false},
-    {id:"h3",nome:"Revisão semanal",hora:"10:00",streak:3,serve:"poupanca",feito:false},
-    {id:"h4",nome:"Alongamento em casa",hora:"18:00",streak:0,serve:"leitura",feito:false}
-  ],
-  cargas:[
-    {id:"x1",ex:"Supino reto",carga:72.5,series:"4 × 6",delta:2.5,esq:null,dir:null},
-    {id:"x2",ex:"Remada curvada",carga:70,series:"4 × 8",delta:5,esq:null,dir:null},
-    {id:"x3",ex:"Agachamento livre",carga:100,series:"5 × 5",delta:0,esq:null,dir:null},
-    {id:"x4",ex:"Desenvolvimento militar",carga:42.5,series:"4 × 6",delta:0,esq:null,dir:null},
-    {id:"x5",ex:"Unilateral halter",carga:22,series:"3 × 10",delta:0,esq:18,dir:22}
-  ],
-  entregas:[
-    {id:"a1",titulo:"Trabalho de Macro II",tipo:"entrega",data:"2026-08-28",nota:"Grupo · reunião quarta 19:30"},
-    {id:"a2",titulo:"Lista de Econometria 3",tipo:"entrega",data:"2026-09-02",nota:"Individual"},
-    {id:"a3",titulo:"Prova de Econometria I",tipo:"prova",data:"2026-09-09",nota:"Peso 40%"},
-    {id:"a4",titulo:"Seminário de Economia Brasileira",tipo:"entrega",data:"2026-09-11",nota:"Dupla"},
-    {id:"a5",titulo:"Prova de Macro II",tipo:"prova",data:"2026-10-14",nota:"Presencial"}
-  ],
-  notas:[
-    {id:"n1",texto:"Perguntar ao Davi se o orçamento de ads inclui criativo",quando:"ontem 21:14"},
-    {id:"n2",texto:"Ótica de Uberaba pediu orçamento de 12 armações western",quando:"14/08 16:02"},
-    {id:"n3",texto:"Usar o funil da Barns como exemplo no seminário",quando:"13/08 09:40"}
-  ],
-  funil:[
-    {id:"f1",etapa:"Base A+",v:120},{id:"f2",etapa:"Enviadas",v:86},{id:"f3",etapa:"Responderam",v:34},
-    {id:"f4",etapa:"Conversas",v:11},{id:"f5",etapa:"Orçamentos",v:4},{id:"f6",etapa:"Pedidos",v:2}
-  ],
-  pedidos:[
-    {id:"p1",mes:"mar",v:1},{id:"p2",mes:"abr",v:2},{id:"p3",mes:"mai",v:1},
-    {id:"p4",mes:"jun",v:3},{id:"p5",mes:"jul",v:1},{id:"p6",mes:"ago",v:2}
-  ],
-  receitaVanetto:[
-    {id:"v1",mes:"mai",v:0},{id:"v2",mes:"jun",v:0},{id:"v3",mes:"jul",v:118},
-    {id:"v4",mes:"ago",v:1822}
-  ],
-  sessoes:[
-    {id:"s1",sem:"sem 1",v:4},{id:"s2",sem:"sem 2",v:3},{id:"s3",sem:"sem 3",v:3},{id:"s4",sem:"sem 4",v:3}
-  ]
+  cartoes:[], gastos:[], entradas:[], dividas:[],
+  habitos:[], tarefas:[], notas:[],
+  cargas:[], sessoes:[],
+  entregas:[],
+  funil:[], pedidos:[], receitaVanetto:[], vanettoSessoes:[],
+  objetivos:[]
 };
 
 /* Mesma porta de sempre — all / add / update / remove / on.
@@ -639,7 +579,8 @@ const store=(()=>{
     dia:["habitos","tarefas","notas"],
     treino:["cargas","sessoes"],
     estudo:["entregas"],
-    negocios:["funil","pedidos","receitaVanetto"]
+    negocios:["funil","pedidos","receitaVanetto","vanettoSessoes"],
+    metas:["objetivos"]
   };
   const GRUPO_DE={};
   for(const g in GRUPOS) GRUPOS[g].forEach(c=>{ GRUPO_DE[c]=g; });
@@ -1014,25 +955,21 @@ const AREAS={
 const OPT_AREAS=Object.entries(AREAS).map(([v,a])=>({v,t:a.nome,dot:a.cls}));
 const CATEGORIAS=["Mercado","Comida fora","Transporte","Assinaturas","Saúde","Negócio","Lazer","Outro"];
 
-const OBJETIVOS=[
-  {id:"barns",area:"vendas",titulo:"Barns em 4–6 pedidos por mês",prazo:"sem data dura",prog:.35,metrica:"2 pedidos em agosto",
-   passos:[{t:"Separar a base A+",feito:true,q:"11/08"},{t:"Disparar a 1ª leva",feito:true,q:"13/08"},
-           {t:"Apurar a taxa de resposta",feito:false,q:"parado há 3 dias"},{t:"Definir conversas por semana",feito:false,q:"depende do anterior"},
-           {t:"Fechar 4 pedidos num mês",feito:false,q:"sem data"}]},
-  {id:"vanetto",area:"loja",titulo:"Vanetto a US$ 10.000",prazo:"31/12/2026",prog:.19,metrica:"US$ 1.940 acumulados",
-   passos:[{t:"Loja no ar com 12 produtos",feito:true,q:"29/07"},{t:"Acertar ads com o Davi",feito:false,q:"trava o checkpoint 2"},
-           {t:"US$ 3.000 acumulados",feito:false,q:"alvo 30/09"},{t:"US$ 10.000",feito:false,q:"31/12/2026"}]},
-  {id:"poupanca",area:"pessoal",titulo:"Juntar R$ 5.000",prazo:"31/03/2027",prog:.25,metrica:"R$ 284/mês de sobra",
-   passos:[{t:"Mapear a renda real",feito:true,q:"14/08"},{t:"Listar todas as dívidas",feito:false,q:"prometido 15/08 · atrasado"},
-           {t:"Fixar o valor mensal",feito:false,q:"depende da lista"},{t:"Chegar a R$ 2.500",feito:false,q:"alvo 30/11"}]},
-  {id:"cpa10",area:"academico",titulo:"Estágio na área financeira",prazo:"02/2027",prog:.4,metrica:"2 de 5 passos",
-   passos:[{t:"Comprar o material da CPA-10",feito:true,q:"02/08"},{t:"Estudar 1h por dia útil",feito:true,q:"9 dias seguidos"},
-           {t:"Marcar a data da prova",feito:false,q:"sem data"},{t:"Refazer currículo e LinkedIn",feito:false,q:"sem data"},
-           {t:"Aplicar em 10 vagas",feito:false,q:"sem data"}]},
-  {id:"leitura",area:"pessoal",titulo:"Hábito de leitura",prazo:"contínuo",prog:.6,metrica:"6 dias seguidos",streak:6,tipo:"streak"},
-  {id:"espiritual",area:"pessoal",titulo:"Vida espiritual",prazo:"contínuo",prog:.85,metrica:"11 dias seguidos",streak:11,tipo:"streak"}
-];
-const objDe=id=>OBJETIVOS.find(o=>o.id===id);
+/* Os objetivos vêm dos dados, como todo o resto — mexer num passo aqui grava
+   no repositório. O progresso NÃO é digitado: sai da contagem de passos
+   feitos, senão vira número que alguém escolheu. */
+const objetivos=()=>(store.all("objetivos")||[]).map(o=>{
+  const passos=o.passos||[];
+  const feitos=passos.filter(p=>p.feito).length;
+  const prog=o.tipo==="streak"
+    ? Math.min(1,(o.streak||0)/30)
+    : (passos.length?feitos/passos.length:0);
+  const metrica=o.tipo==="streak"
+    ? ((o.streak||0)>0 ? o.streak+" dias seguidos" : "ainda não começou")
+    : `${feitos} de ${passos.length} passos`;
+  return {...o,prog,feitos,metrica,nota:o.metrica||""};
+});
+const objDe=id=>objetivos().find(o=>o.id===id);
 
 const HEAT=[0,2,3,1,0,0,3,4,4,2,0,1,3,3,2,0,0,2,4,3,3,1,0,0,1,2,2,3,4,3,0,0,3,3,4,2,1,0,0,2,3,4,4,3,2,0,1,3,4,4,3,3,0,0,2,4,4,3,4,3,1];
 const SEMANA=[
@@ -1053,15 +990,16 @@ const NOTICIAS=[
   {a:"Economia",t:"IPCA de julho vem a 0,26%, abaixo do esperado",f:"Agência Brasil",h:"3 dias",c:"var(--area-pessoal)",p:"Alivia o custo de vida fixo."}
 ];
 const CONQ_OK=[
-  {t:"Primeira venda da Vanetto",q:"29/07/2026",d:"US$ 118, cliente do Texas."},
-  {t:"Agenda refeita do zero",q:"15/08/2026",d:"A agenda morta de abril foi apagada."},
-  {t:"Seis objetivos verificáveis",q:"15/08/2026",d:"Todos passam no fiz / não fiz."},
-  {t:"Base A+ separada",q:"11/08/2026",d:"Primeira leva saiu 2 dias depois."}
+  {t:"Agenda refeita do zero",q:"15/08/2026",d:"A agenda morta de abril foi apagada e a semana reconstruída."},
+  {t:"Seis objetivos verificáveis",q:"15/08/2026",d:"Todos passam no teste do fiz / não fiz sem pensar."},
+  {t:"Base A+ da Barns separada",q:"11/08/2026",d:"Primeira leva de reativação saiu 2 dias depois."},
+  {t:"Loja da Vanetto no ar",q:"julho/2026",d:"625 sessões em dois meses. Falta a venda."}
 ];
 const CONQ_FALTA=[
-  {t:"Dívida inteira mapeada",q:"faltam 3 credores",d:"Trava o planejamento até março."},
-  {t:"Primeiro mês com 4 pedidos",q:"Barns",d:"Destrava poupança e tráfego de uma vez."},
-  {t:"CPA-10 aprovada",q:"prova sem data",d:"Porta de entrada do objetivo 1."},
+  {t:"Dívida inteira mapeada",q:"nenhum credor lançado",d:"É ela que confirma se março se sustenta."},
+  {t:"Primeira venda da Vanetto",q:"receita hoje: zero",d:"Checkpoint 1, até 30/09. Valida tudo."},
+  {t:"Primeiro mês com 4 pedidos",q:"Barns",d:"Destrava a poupança e o tráfego de uma vez."},
+  {t:"CPA-10 aprovada",q:"prova sem data",d:"Porta de entrada do objetivo de estágio."},
   {t:"Nome limpo",q:"a partir de out/2026",d:"Pré-requisito da vaga em banco."}
 ];
 
@@ -1105,12 +1043,19 @@ const TRAVAS=[
   {area:"loja",cadeia:["Orçamento de ads com o Davi","Checkpoint 2 da Vanetto"],href:"#/areas/loja",dias:null}
 ];
 
+/* Quanto precisa sobrar por mês pra fechar os R$ 5.000 em 31/03/2027, e
+   quanto vai por mês pra dívida. Números do planejamento, não chute — vira
+   dado editável assim que a lista de dívidas existir. */
+const PRECISA=640, DIVIDA_MES=800;
+
 function pHome(){
   const habitos=store.all("habitos"), tarefas=store.all("tarefas");
   const hoje="2026-08-16";
   const feitos=habitos.filter(h=>h.feito).length;
   const nivel=feitos===0?1:Math.min(5,1+Math.round((feitos/habitos.length)*4));
   const rot=["começando","andando","andando","bom dia","dia cheio"];
+  const pedidos=store.all("pedidos")||[];
+  const pedidosMes=pedidos.length?pedidos[pedidos.length-1].v:0;
 
   /* 2 — agenda: hábitos e tarefas do dia no mesmo eixo de horário */
   const agenda=[
@@ -1134,12 +1079,13 @@ function pHome(){
     </li>`;
   }).join("")+(marcou?"":`<div class="agora"><i></i><b>agora ${AGORA}</b><s></s></div>`);
 
-  /* 4 — financeiro */
+  /* 4 — financeiro. "Livre" não é sobra: os gastos variáveis ainda não
+     estão lançados, e dizer que sobrou seria mentir pra ele. */
   const entrou=soma(store.all("entradas"),e=>e.valor), saiu=soma(store.all("gastos"),g=>g.valor);
-  const sobra=entrou-saiu;
+  const livre=entrou-saiu-DIVIDA_MES;
 
   /* 6 — trilhas: onde cada objetivo parou */
-  const trilhas=OBJETIVOS.filter(o=>o.passos).map(o=>{
+  const trilhas=objetivos().filter(o=>o.passos).map(o=>{
     const idx=o.passos.findIndex(p=>!p.feito);
     return {...o,idx,prox:idx>=0?o.passos[idx]:null,feitos:o.passos.filter(p=>p.feito).length};
   });
@@ -1195,22 +1141,25 @@ function pHome(){
       `<a class="btn btn-outline btn-sm" href="#/financas">Abrir finanças</a>`,
       `<div class="tri">
         <div class="kpi"><span class="eyebrow">Entrou</span><span class="kpi-v" style="font-size:23px">${brl(entrou)}</span></div>
-        <div class="kpi"><span class="eyebrow">Saiu</span><span class="kpi-v" style="font-size:23px">${brl(saiu)}</span></div>
-        <div class="kpi"><span class="eyebrow">Sobrou</span><span class="kpi-v" style="font-size:23px">${brl(sobra)}</span>
-          <span class="badge badge-${sobra>=640?"bom":"atencao"}" style="align-self:flex-start">${sobra>=640?"na meta":"falta "+brl(640-sobra)}</span></div>
+        <div class="kpi"><span class="eyebrow">Comprometido</span><span class="kpi-v" style="font-size:23px">${brl(DIVIDA_MES+saiu)}</span>
+          <span class="small dim">dívida + fixos</span></div>
+        <div class="kpi"><span class="eyebrow">Livre</span><span class="kpi-v" style="font-size:23px">${brl(livre)}</span>
+          <span class="badge badge-${livre>=PRECISA?"bom":"atencao"}" style="align-self:flex-start">${livre>=PRECISA?"acima do preciso":"antes dos variáveis"}</span></div>
       </div>
-      ${gBarras({labels:["mar","abr","mai","jun","jul","ago"],h:200,fmtY:v=>(v/1000).toFixed(1).replace(".",",")+"k",fmtT:brl,
-        series:[{nome:"entrou",dados:[1780,1810,1650,1900,1840,entrou],cor:"var(--ramp-3)"},
-                {nome:"saiu",dados:[1684,1670,1590,1690,1668,saiu],cor:"var(--area-vendas)"}],
-        alt:"Entrada e saída dos últimos seis meses"})}
-      ${legenda([{t:"entrou",cor:"var(--ramp-3)"},{t:"saiu",cor:"var(--area-vendas)"}])}`,
-      `<span class="small dim">A sobra é o que constrói os R$ 5.000.</span>
+      ${gBarras({labels:["entrou","dívida","fixos","livre"],h:190,fmtY:v=>(v/1000).toFixed(1).replace(".",",")+"k",fmtT:brl,
+        series:[{nome:"reais",dados:[entrou,DIVIDA_MES,saiu,livre],cor:"var(--ramp-3)"}],
+        meta:PRECISA,metaTxt:"precisa guardar "+brl(PRECISA),
+        alt:"Para onde vai o dinheiro de agosto"})}
+      <div class="vazio" style="padding:var(--sp-3) var(--sp-4)">
+        <span class="small">Mercado, gasolina, comida fora e lazer ainda não estão lançados — então "livre" não é o que sobra de verdade. É por isso que existe o hábito de anotar o gasto do dia.</span>
+      </div>`,
+      `<span class="small dim">É o que sobra que constrói os R$ 5.000.</span>
        <a class="btn btn-outline btn-sm" href="#/financas/detalhe">Lançar gasto</a>`)}
 
     <!-- 5 · OBJETIVOS -->
     <div class="stack-tight">
       <div class="between"><span class="eyebrow">Objetivos</span><a class="btn btn-outline btn-sm" href="#/objetivos">Ver os 6</a></div>
-      <div class="cols cols-3">${OBJETIVOS.map(cardObj).join("")}</div>
+      <div class="cols cols-3">${objetivos().map(cardObj).join("")}</div>
     </div>
 
     <!-- 6 · TRILHAS -->
@@ -1234,15 +1183,15 @@ function pHome(){
       <div class="between"><span class="eyebrow">O gargalo</span><span class="badge badge-risco">trava duas metas</span></div>
       <div class="fork">
         <a class="fonte" href="#/areas/vendas">
-          <span class="fonte-l">Barns · pedidos por mês</span>
-          <span class="fonte-v">2 <span style="font-size:.5em;opacity:.7">de 4–6</span></span>
+          <span class="fonte-l">Barns · pedidos este mês</span>
+          <span class="fonte-v">${pedidosMes} <span style="font-size:.5em;opacity:.7">de 4–6</span></span>
         </a>
         <div class="stem"></div>
         <div class="deps">
           <a class="dep dep-pessoal" href="#/objetivos/poupanca">
             <span class="area-tag"><i class="area-dot a-pessoal"></i>Pessoal</span>
             <strong style="font-weight:600">R$ 5.000 até março</strong>
-            <span class="small dim num">faltam R$ 356/mês</span></a>
+            <span class="small dim num">${sobra>=PRECISA?"no ritmo":"faltam "+brl(PRECISA-sobra)+"/mês"}</span></a>
           <a class="dep dep-loja" href="#/objetivos/vanetto">
             <span class="area-tag"><i class="area-dot a-loja"></i>Vanetto</span>
             <strong style="font-weight:600">US$ 10.000 até dezembro</strong>
@@ -1557,18 +1506,18 @@ function pRotina(){
 }
 
 function pObjetivos(){
-  const porArea=Object.keys(AREAS).map(k=>({t:AREAS[k].nome,v:OBJETIVOS.filter(o=>o.area===k).length,cor:AREAS[k].cor})).filter(d=>d.v);
+  const porArea=Object.keys(AREAS).map(k=>({t:AREAS[k].nome,v:objetivos().filter(o=>o.area===k).length,cor:AREAS[k].cor})).filter(d=>d.v);
   $("#p-objetivos").innerHTML=`
   <div class="page-head"><div class="t"><span class="eyebrow">Objetivos</span><h1>Seis, e nenhum a mais</h1></div></div>
   <div class="stack">
     <div class="cols cols-2-1">
       ${card("Progresso de cada um","",
-        gBarras({labels:OBJETIVOS.map(o=>o.id.slice(0,6)),h:200,fmtY:v=>v+"%",fmtT:v=>v+"%",max:100,
-          series:[{nome:"progresso",dados:OBJETIVOS.map(o=>Math.round(o.prog*100)),cor:"var(--ramp-3)"}],
+        gBarras({labels:objetivos().map(o=>o.id.slice(0,6)),h:200,fmtY:v=>v+"%",fmtT:v=>v+"%",max:100,
+          series:[{nome:"progresso",dados:objetivos().map(o=>Math.round(o.prog*100)),cor:"var(--ramp-3)"}],
           alt:"Progresso de cada objetivo"}))}
       ${card("Por área","",gDonut({dados:porArea,centro:"6",centroSub:"OBJETIVOS",alt:"Objetivos por área"}))}
     </div>
-    <div class="cols cols-3">${OBJETIVOS.map(cardObj).join("")}</div>
+    <div class="cols cols-3">${objetivos().map(cardObj).join("")}</div>
   </div>`;
 }
 
@@ -1608,7 +1557,7 @@ function pArea(silo){
   if(!a){ el.innerHTML=`<a class="back" href="#/">← Dashboard</a>
     <div class="vazio"><strong style="color:var(--ink)">Área não encontrada</strong><span class="small">São quatro: pessoal, acadêmico, Barns e Vanetto.</span>
     <a class="btn" href="#/">Voltar</a></div>`; return; }
-  const meus=OBJETIVOS.filter(o=>o.area===silo);
+  const meus=objetivos().filter(o=>o.area===silo);
   let extra="";
 
   if(silo==="vendas"){
@@ -1834,14 +1783,14 @@ const ACOES={
   "habito-novo":()=>sheet.abrir({titulo:"Novo hábito",sub:"Todo hábito serve a um objetivo",okTxt:"Criar hábito",toast:"Hábito criado.",
     campos:[{k:"nome",label:"Hábito",tipo:"text",req:true,ph:"Ex.: ler 20 minutos",erro:"Dê um nome ao hábito."},
             {k:"hora",label:"Horário",tipo:"text",ph:"08:30"},
-            {k:"serve",label:"Serve a qual objetivo",tipo:"chips",req:true,opts:OBJETIVOS.map(o=>({v:o.id,t:o.titulo.slice(0,22)})),
+            {k:"serve",label:"Serve a qual objetivo",tipo:"chips",req:true,opts:objetivos().map(o=>({v:o.id,t:o.titulo.slice(0,22)})),
              erro:"Escolha o objetivo — hábito solto não entra no painel."}],
     valores:{hora:"08:00"}, onSalvar:v=>store.add("habitos",{...v,streak:0,feito:false})}),
 
   "habito-editar":id=>{const h=store.all("habitos").find(x=>x.id===id);
     sheet.abrir({titulo:"Editar hábito",toast:"Hábito atualizado.",valores:h,
       campos:[{k:"nome",label:"Hábito",tipo:"text",req:true},{k:"hora",label:"Horário",tipo:"text"},
-              {k:"serve",label:"Serve a qual objetivo",tipo:"chips",opts:OBJETIVOS.map(o=>({v:o.id,t:o.titulo.slice(0,22)}))},
+              {k:"serve",label:"Serve a qual objetivo",tipo:"chips",opts:objetivos().map(o=>({v:o.id,t:o.titulo.slice(0,22)}))},
               {k:"streak",label:"Sequência atual",tipo:"stepper",inc:1,unidade:"dias"}],
       onSalvar:v=>store.update("habitos",id,v), onExcluir:()=>store.remove("habitos",id)})},
 

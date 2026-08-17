@@ -61,7 +61,8 @@ export const GRUPOS = {
   dia:      ["habitos", "tarefas", "notas"],
   treino:   ["cargas", "sessoes"],
   estudo:   ["entregas"],
-  negocios: ["funil", "pedidos", "receitaVanetto"]
+  negocios: ["funil", "pedidos", "receitaVanetto", "vanettoSessoes"],
+  metas:    ["objetivos"]
 };
 
 export const json = (obj, code = 200) => new Response(JSON.stringify(obj), {
