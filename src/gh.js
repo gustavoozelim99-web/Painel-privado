@@ -92,7 +92,7 @@ export async function versaoAtual(env){
 
 export async function tudo(env){
   const estado = await lerArquivo(env, "_estado");
-  const saida = {versao: await versaoAtual(env), focoDoDia: estado.dados.focoDoDia};
+  const saida = {versao: await versaoAtual(env), focoDoDia: estado.dados.focoDoDia, analiseFinanceira: estado.dados.analiseFinanceira};
   for(const g of Object.keys(GRUPOS)){
     Object.assign(saida, (await lerArquivo(env, g)).dados);
   }

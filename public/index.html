@@ -620,6 +620,8 @@ const store=(()=>{
   /* aplica o que veio do servidor, menos os grupos que eu ainda não gravei */
   function adotar(servidor,exceto){
     versao=servidor.versao;
+    db._focoDoDia=servidor.focoDoDia;
+    db._analiseFinanceira=servidor.analiseFinanceira;
     for(const g in GRUPOS){
       if(exceto&&exceto.has(g)) continue;
       GRUPOS[g].forEach(c=>{ if(Array.isArray(servidor[c])) db[c]=servidor[c]; });
@@ -668,6 +670,8 @@ const store=(()=>{
 
   return {
     all:k=>db[k],
+    /* o que não é lista: foco do dia, análise escrita */
+    avulso:k=>db["_"+k],
     add(k,r){ r.id=uid(); db[k].unshift(r); mexeu(k); return r; },
     update(k,id,patch){ const r=db[k].find(x=>x.id===id); if(r) Object.assign(r,patch); mexeu(k); return r; },
     remove(k,id){ db[k]=db[k].filter(x=>x.id!==id); mexeu(k); },
@@ -1251,6 +1255,17 @@ function pFinancas(){
     <div class="vazio" style="padding:var(--sp-3) var(--sp-4)">
       <span class="small">${gastos.length} gastos lançados este mês. Mercado, gasolina e comida fora ainda não entraram — enquanto não entrarem, "livre" é teto, não sobra.</span>
     </div>
+
+    ${(()=>{ const a=store.avulso("analiseFinanceira"); if(!a) return "";
+      return card(esc(a.titulo),`<span class="small dim num">${esc(a.data)}</span>`,
+        `<div class="tri" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+          ${(a.numeros||[]).map(n=>`<div class="kpi"><span class="eyebrow">${esc(n.r)}</span><span class="kpi-v" style="font-size:19px">${esc(n.v)}</span></div>`).join("")}
+        </div>
+        <div class="stack-tight" style="gap:var(--sp-3);max-width:66ch">
+          ${(a.paragrafos||[]).map(p=>`<p class="muted">${esc(p)}</p>`).join("")}
+        </div>`,
+        `<span class="small dim">Escrito pelo Claude, a partir dos seus números.</span>`);
+    })()}
 
     <div class="stack-tight">
       <div class="between"><span class="eyebrow">Cartões</span>${btnAdd("cartao-novo","Cartão")}</div>

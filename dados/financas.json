@@ -10,22 +10,20 @@
   ],
   "dividas": [
     {
-      "id":"d1","credor":"Acordo pequeno (credor a identificar)",
-      "valor":147.51,"vence":"2026-08-21","juros":0,
-      "acordo":true,"avista":147.51,"parcelado":"2x 86,88 ou 3x 57,92",
-      "custoParcelado":173.76,"desconto":"25%"
+      "id":"d1","credor":"SuperSim","valor":147.59,"vence":"2026-08-21","juros":0,
+      "acordo":true,"parcelado":"3x de 57,92 = R$ 173,76","desconto":"25%",
+      "nota":"Parcelar custa 18% a mais. Cabe à vista este mês."
     },
     {
-      "id":"d2","credor":"Acordo médio (credor a identificar)",
-      "valor":264.62,"vence":"2026-08-21","juros":0,
-      "acordo":true,"avista":264.62,"parcelado":"até 6x de 54,08",
-      "custoParcelado":324.48,"desconto":"39%"
+      "id":"d2","credor":"Banco Pan","valor":264.75,"vence":"2026-08-21","juros":0,
+      "acordo":true,"parcelado":"até 6x de 54,08 = R$ 324,48","desconto":"39%",
+      "nota":"Se for parcelar, parcele em 6x: 2x e 6x diferem só R$ 12."
     },
     {
-      "id":"d3","credor":"Acordo grande (credor a identificar)",
-      "valor":1484.37,"vence":"2026-08-21","juros":0,
-      "acordo":true,"avista":1484.37,"original":2698.85,
-      "descontoValor":1214.48,"desconto":"45%"
+      "id":"d3","credor":"C6","valor":1484.37,"vence":"2026-08-21","juros":0,
+      "acordo":true,"original":2698.85,"descontoValor":1214.48,"desconto":"45%",
+      "semParcelamento":true,
+      "nota":"SÓ À VISTA. É o maior desconto disponível pra ele hoje: R$ 1.214,48. E não cabe em agosto."
     }
   ]
 }

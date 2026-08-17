@@ -1,7 +1,26 @@
 {
-  "atualizadoEm": "2026-08-16T23:47:10.267Z",
+  "atualizadoEm": "2026-08-16T20:30:00-03:00",
   "focoDoDia": {
-    "texto": "Montar a lista de dívidas.",
-    "porque": "Prometida pra ontem. Sem ela os R$ 5.000 até março são chute."
+    "texto": "Perguntar ao C6 se o acordo vale depois de 21/08.",
+    "porque": "São R$ 1.214,48 de desconto. Não cabe em agosto, e a oferta vence sexta."
+  },
+  "analiseFinanceira": {
+    "data": "16/08/2026",
+    "titulo": "Setembro é o mês que muda tudo",
+    "paragrafos": [
+      "Os R$ 800 por mês de dívida antiga acabam agora em agosto. A partir de setembro entram R$ 1.870 e saem R$ 166 de fixos: sobram R$ 1.704 antes do que você gasta no dia a dia. Hoje esse número é R$ 904. É o maior salto que suas contas vão dar no ano, e ele não depende da Barns nem da Vanetto.",
+      "Os três acordos somam R$ 1.896,71 à vista. As duas pequenas (SuperSim R$ 147,59 e Banco Pan R$ 264,75) somam R$ 412,34 e cabem em agosto sem drama. Parcelar as duas custaria 18% a mais, então não vale.",
+      "O problema é o C6: R$ 1.484,37, só à vista, com desconto de R$ 1.214,48 sobre uma dívida de R$ 2.698,85. É o maior desconto disponível pra você hoje, vale mais que a comissão de um mês inteiro, e não cabe em agosto: com os R$ 800 da dívida velha ainda pendurados sobram R$ 904, menos que o acordo.",
+      "Em setembro caberia (R$ 1.704 livres contra R$ 1.484 de acordo), só que aí sobrariam R$ 220 pro mês inteiro de mercado, gasolina e comida. Apertado demais pra ser realista. O caminho honesto é pagar as duas pequenas agora, guardar setembro inteiro, e quitar o C6 em outubro com folga.",
+      "Isso só funciona se o acordo do C6 ainda existir em outubro. Por isso a pergunta que importa esta semana não é financeira, é operacional: perguntar ao C6 se a oferta se mantém ou volta depois de 21/08.",
+      "Quitar as três não é só dinheiro. Nome limpo é pré-requisito declarado do seu objetivo de trabalhar em instituição financeira, então isso aqui é passo do objetivo de estágio também, não só do de poupança."
+    ],
+    "numeros": [
+      {"r": "Livre por mês, agosto", "v": "R$ 904"},
+      {"r": "Livre por mês, de setembro em diante", "v": "R$ 1.704"},
+      {"r": "Total dos 3 acordos", "v": "R$ 1.896,71"},
+      {"r": "Desconto só do C6", "v": "R$ 1.214,48"},
+      {"r": "Precisa guardar por mês até março", "v": "R$ 640"}
+    ]
   }
 }

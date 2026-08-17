@@ -89,7 +89,7 @@ async function versaoAtual(){
 
 async function tudo(){
   const estado = await lerJSON("_estado");
-  const saida = {versao: await versaoAtual(), focoDoDia: estado.focoDoDia};
+  const saida = {versao: await versaoAtual(), focoDoDia: estado.focoDoDia, analiseFinanceira: estado.analiseFinanceira};
   for(const g of Object.keys(GRUPOS)) Object.assign(saida, await lerJSON(g));
   return saida;
 }
