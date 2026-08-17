@@ -1,3 +1,55 @@
 {
-  "curadoria": []
+  "curadoria": [
+    {
+      "id": "https://www.sonoticiaboa.com.br/2026/08/15/cientistas-usp-nanoparticula-feridas-cronicas-regeneracao-72-horas",
+      "titulo": "Cientistas da USP criam nanopartícula que regenera feridas crônicas em 72 horas",
+      "link": "https://www.sonoticiaboa.com.br/2026/08/15/cientistas-usp-nanoparticula-feridas-cronicas-regeneracao-72-horas",
+      "fonte": "Só Notícia Boa",
+      "assunto": "Notícia boa",
+      "emoji": "🌱",
+      "imagem": "",
+      "porque": "Uma nanopartícula desenvolvida na USP reduziu o tempo de cicatrização de feridas crônicas para 72 horas — avanço real da ciência brasileira.",
+      "geradoEm": "16/08 22:37"
+    },
+    {
+      "id": "https://tecnoblog.net/noticias/voce-esta-falando-com-uma-ia-aviso-passa-a-ser-obrigatorio-na-europa/",
+      "titulo": "\"Você está falando com uma IA\": aviso passa a ser obrigatório na Europa",
+      "link": "https://tecnoblog.net/noticias/voce-esta-falando-com-uma-ia-aviso-passa-a-ser-obrigatorio-na-europa/",
+      "fonte": "Tecnoblog",
+      "assunto": "IA e tecnologia",
+      "emoji": "🤖",
+      "imagem": "",
+      "porque": "Regulação europeia de transparência em IA tende a virar padrão global — o mesmo tipo de exigência pode chegar às ferramentas de IA que ele usa no dia a dia."
+    },
+    {
+      "id": "https://www.cnnbrasil.com.br/politica/apos-pauta-economica-governo-tem-pendencia-na-seguranca-e-6x1-no-congresso/",
+      "titulo": "Governo garante isenção do IR no Congresso, mas segurança e fim da escala 6x1 ficam pra depois",
+      "link": "https://www.cnnbrasil.com.br/politica/apos-pauta-economica-governo-tem-pendencia-na-seguranca-e-6x1-no-congresso/",
+      "fonte": "CNN Brasil",
+      "assunto": "Política Brasil",
+      "emoji": "🇧🇷",
+      "imagem": "",
+      "porque": "A isenção do IR aprovada mexe direto no salário líquido dele, hoje entre R$ 1.600 e R$ 1.900."
+    },
+    {
+      "id": "https://www.moneytimes.com.br/bitcoin-btc-acompanha-aversao-a-risco-e-cai-para-us-63-mil-veja-cotacoes-das-criptomoedas-hoje-17-igdl/",
+      "titulo": "Bitcoin cai para US$ 63 mil com aversão a risco no mercado global",
+      "link": "https://www.moneytimes.com.br/bitcoin-btc-acompanha-aversao-a-risco-e-cai-para-us-63-mil-veja-cotacoes-das-criptomoedas-hoje-17-igdl/",
+      "fonte": "Money Times",
+      "assunto": "Mercado e Bitcoin",
+      "emoji": "📈",
+      "imagem": "",
+      "porque": "A mesma aversão a risco que derruba a cripto pressiona o dólar — câmbio que pesa no orçamento de ads da Vanetto."
+    },
+    {
+      "id": "https://www.sciencedaily.com/releases/2026/08/260814235858.htm",
+      "titulo": "Remédio de coração com quase 100 anos, a menos de 10 centavos por dia, reduz internação em 25%",
+      "link": "https://www.sciencedaily.com/releases/2026/08/260814235858.htm",
+      "fonte": "Science Daily",
+      "assunto": "Ciência",
+      "emoji": "🔬",
+      "imagem": "",
+      "porque": "Mostra que inovação em saúde nem sempre precisa ser cara — um remédio antigo e barato resolvendo o que tratamento caro não resolvia."
+    }
+  ]
 }
